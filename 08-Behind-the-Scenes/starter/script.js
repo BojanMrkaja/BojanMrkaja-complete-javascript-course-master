@@ -43,4 +43,17 @@ Ovaj Prototype sadrzi sve array metode i onda nizovi(array's) u nasem kodu nasle
 JavaScript je jezik sa first-class funkcijamasto znaci da se funkcije tretiraju kao varijable.
 Sto znaci da mozemo da ih dodajemo kao argumente u druge funkcije ili da ih vratimo(return) iz drugih funkcija.
 Ovo nam omogucava da koristimo functional programming
+
+7.Dynamic
+JavaScript je dinamicki kucan programski jezik sto u sustini znaci da ne moramo manuelno da dodeljuje tip podatka varijablama.
+JavaScript engine detektuje tip podatka u varijabli kada se kod izvrsi.Ovako lako mozemo da menjamo tip podatka koji cuvamo u varijabli.
+Na primer ako smo inicijalno kreirali varijablu sa brojem kao tipom podatka poslje lako mozemo da promenimo da bude string, boolean, objekat ili nesto drugo.
+
+8.Single-threaded , non-blocking event loop
+Concurrency model:nacin na koji se JavaScript engine nosi sa vise zadataka koji se desavaju u isto vrijeme.
+Ovo je potrebno zato sto javaScript single-threaed sto znaci da moze da izvrsava samo jednu po jednu stvar.
+JavaScript koristi event loop za zatatke kojima treba dugo da se izvrse.
+Event loop uzima zadatke koji se dugo izvrsavaju stavlja ih u "pozadinu" i onda kad se zavrse, vraca ih u glavni tred(thread).
+Primer ovoga je "hvatanje" nekih podataka sa udaljenog servera.Da nema event loopa celi program bi "blokirao" dok se podaci skidaju sa servera.
+
  */
