@@ -50,10 +50,37 @@ JavaScript engine detektuje tip podatka u varijabli kada se kod izvrsi.Ovako lak
 Na primer ako smo inicijalno kreirali varijablu sa brojem kao tipom podatka poslje lako mozemo da promenimo da bude string, boolean, objekat ili nesto drugo.
 
 8.Single-threaded , non-blocking event loop
-Concurrency model:nacin na koji se JavaScript engine nosi sa vise zadataka koji se desavaju u isto vrijeme.
+Non-blocking Concurrency model:nacin na koji se JavaScript engine nosi sa vise zadataka koji se desavaju u isto vrijeme.
 Ovo je potrebno zato sto javaScript single-threaed sto znaci da moze da izvrsava samo jednu po jednu stvar.
 JavaScript koristi event loop za zatatke kojima treba dugo da se izvrse.
 Event loop uzima zadatke koji se dugo izvrsavaju stavlja ih u "pozadinu" i onda kad se zavrse, vraca ih u glavni tred(thread).
 Primer ovoga je "hvatanje" nekih podataka sa udaljenog servera.Da nema event loopa celi program bi "blokirao" dok se podaci skidaju sa servera.
 
+
+
+
+-------------JAVASCRIPT ENGINE AND RUNTIME--------------------------
+
+JavaScript engine je program koji izvrsava javaScript kod.
+
+Svaki pretrazivac(google crome,firefox itd.) ima svoj JS engine, najpoznatiji je google-v V8.
+
+JS engine se sastoji iz dve osnovne komponente: CALL STACK I HEAP.
+
+U call stack-u se izvrsava js kod koristeci nesto sto se zove execution context.
+
+Heap je memoriski "pool" gde se cuvaju svi ojekti koji su potrebni nasoj aplikaciji.
+
+COMPILATION VS INTERPRETATION
+
+CPU samo razume nule i jedinice,u skladu sa tim svaki kompjuterski program mora biti konvertovan u ovaj machine code.
+Ovaj proces moze da se odradi koristeci "compilation" ili "interpretation".
+
+Compilation:Sav kod se konvertuje u machine kod odjednom, i upisuje se u binarni file i kao takav moze da se izvrsi u CPU-u.
+
+Interpretation:Prolazi kroz kod  i izvrsava ga liniju po liniju.
+
+JavaScript koristi kombinaciju ova dva navedena procesa i naziva se Just-in-time compilation.
+
+Citav kod se konvertuje u machine code odjednom i odmah se izvrsava.
  */
