@@ -83,4 +83,37 @@ Interpretation:Prolazi kroz kod  i izvrsava ga liniju po liniju.
 JavaScript koristi kombinaciju ova dva navedena procesa i naziva se Just-in-time compilation.
 
 Citav kod se konvertuje u machine code odjednom i odmah se izvrsava.
+
+
+
+-------------EXECUTION CONTEXT AND CALL STACK--------------------------
+
+Nakon kompilacije koda kreira se global execution context za top level kod.Top level kod je kod koji se ne nalazi 
+u funkcijama.
+
+Sta je execution context??
+To je okruzenje gde se delovi javaScript-a izvrsavaju.Tu se cuvaju sve potrebne informacije za neki kod da bi se izvrsio, kao sto su:
+varijable ili argumenti koji se prosledjuju u funkcije itd.
+
+Nakon sto se top level code izvrsi, izvrsavaju se i funkcije.Kada se god funkcija pozove, takodje se kreira execution context za svaku funkciju.
+Isti princip vazi i za metode jer su to funkcije koje su dio nekog objekta.
+
+Sta je unutar svakog exetution context-a??
+
+Variable okruzenje
+- let , const i var deklaracije
+-funkcije
+-arguments objekat
+Argument objekat sadrzi sve argumente koji su prosledjeni funkciji kojem trenutni executio context pripada.
+Zato sto svak funkcija ima svoj execution context cim je funkcija pozvana.Funkcije takodje mogu da pristupe varijablama iznad njihovog execution contexta.
+Zahvaljujuci necemu sto se zove scope chain.Svaki execution context sadrzi specijalnu varijablu koja se zove THIS kljucna rec.
+
+Arrow funkcije ne sadrze arguments objekat i this kljucnu rec vec mogu da ih koriste od najblize "roditeljske" funkcije.
+
+
+Sta je call stack??
+
+To je mjesto su JS engine-u gde se execution contekst-i "gomilaju" jedan na drugi,da bi pratili i vodili racuna gde smo trenutno u 
+exekuciji koda.
+
  */
