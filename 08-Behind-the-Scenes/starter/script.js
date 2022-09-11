@@ -116,4 +116,30 @@ Sta je call stack??
 To je mjesto su JS engine-u gde se execution contekst-i "gomilaju" jedan na drugi,da bi pratili i vodili racuna gde smo trenutno u 
 exekuciji koda.
 
+-------------SCOPE AND SCOPE CHAIN--------------------------
+
+Scoping:Kako su varijable u nasem programu organizovane i kako im se pristupa.
+Scoping oznacava gde mozemo da pristupimo odredjenim varijablama a gde ne mozemo.
+
+Scope:Mesto ili okruzenje u kojem su odredjene varijable deklarisane.U JavaScriptu postoji global scope, function scope i block scope.
+
+Scope of a variable:Dio naseg koda gde se odredjenim varijablama moze pristupiti.
+
+1.Global scope
+    Global scope je rezervisan za top level kod.To su varijable koje su deklarisane van bilo koje funkcije ili bloka koda.
+    Varijablama koje su deklarisane u global scope-u mozemo da pristupimo bilo gde u nasem programu.
+
+2.function scope
+    Varijable deklarisane u funkcijama su samo dostupne u samim tim funkcijama, ne izvan njih.
+    Ovaj scope se takodje naziva local scope...zato sto su varijable samo localno dostupne.
+
+3.Block scope(ES6)
+    Varijable deklarisane u nekom bloku koda kao sto su if block, for loop block su samo dostupne u tom bloku.
+    Ovo samo vazi za varijable deklarisane sa let i const.
+    
+Scope chain:
+    Svaki scope uvjek ima pristup svim varijablama iz spoljasnjih scopov-a.Ovaj proces se naziva scope chain.
+    Kada varijabla nije u trenutnom scope-u, engine trazi u scope chain-u dok ne nadje varijablu koja je potrebna.
+    Ovaj proces se naziva variable lookup.   
+
  */
