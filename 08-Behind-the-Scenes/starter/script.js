@@ -1,3 +1,4 @@
+'use strict';
 /*
 Java Script je:
 
@@ -140,6 +141,34 @@ Scope of a variable:Dio naseg koda gde se odredjenim varijablama moze pristupiti
 Scope chain:
     Svaki scope uvjek ima pristup svim varijablama iz spoljasnjih scopov-a.Ovaj proces se naziva scope chain.
     Kada varijabla nije u trenutnom scope-u, engine trazi u scope chain-u dok ne nadje varijablu koja je potrebna.
-    Ovaj proces se naziva variable lookup.   
+    Ovaj proces se naziva variable lookup.
+    
+    
 
+    -------------SCOPE AND SCOPE CHAIN IN PRACTICE--------------------------
  */
+
+function calcAge(birthYear) {
+  const age = 2022 - birthYear;
+  console.log(firsName);
+
+  function printAge() {
+    const output = `${firsName}, you are ${age} , born in ${birthYear}`;
+    console.log(output);
+
+    if (birthYear >= 1981 && birthYear <= 1996) {
+      const str = `Oh , and you are a milenial ${firsName}`;
+      console.log(str);
+    }
+
+    // console.log(str);
+    //Reference Error:Ne mozemo da pristupimo varijablama iznad if block-a
+  }
+
+  printAge();
+  return age;
+}
+
+const firsName = 'Bojan';
+
+calcAge(1988);
