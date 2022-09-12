@@ -150,15 +150,15 @@ Scope chain:
 
 function calcAge(birthYear) {
   const age = 2022 - birthYear;
-  console.log(firsName);
+  //   console.log(firsName);
 
   function printAge() {
     const output = `${firsName}, you are ${age} , born in ${birthYear}`;
-    console.log(output);
+    // console.log(output);
 
     if (birthYear >= 1981 && birthYear <= 1996) {
       const str = `Oh , and you are a milenial ${firsName}`;
-      console.log(str);
+      //   console.log(str);
     }
 
     // console.log(str);
@@ -172,3 +172,33 @@ function calcAge(birthYear) {
 const firsName = 'Bojan';
 
 calcAge(1988);
+
+/*
+-------------VARIABLE ENVIROMENT: HOISTING AND THE TDZ--------------------------
+
+U javaScript programskom jeziku postoji mehanizam koji se naziva hosting.
+Pomocu ovog mehanizma mozemo da pristupimo nekim tipovima varijabli u nasem kodu prije nego sto su deklarisane.
+Hoisting ne radi isto za sve tipo varijabli(funkcija)
+*/
+
+// console.log(me); //undefined
+// console.log(job); //referenceError:Cannot access "job" before initialization zato sto je job varijabla u TDZ-u
+// console.log(year);
+
+var me = 'Bojan';
+let job = 'Developer';
+const year = 1988;
+
+// console.log(addDecl(2, 3));
+// console.log(addExpr(2, 4));
+// console.log(addArrow(2, 3));
+
+function addDecl(a, b) {
+  return a + b;
+}
+
+const addExpr = function (a, b) {
+  return a + b;
+};
+
+const addArrow = (a, b) => a + b;
