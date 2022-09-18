@@ -202,3 +202,41 @@ const addExpr = function (a, b) {
 };
 
 const addArrow = (a, b) => a + b;
+
+/*
+-------------THIS KEYWORD--------------------------
+This kljucna rec je specijalna varijabla koja je kreirana za svaki execution context(svaku funkciju).
+Uzima vrednost od "vlasnika" funkcije u kojoj je this kljucna rec koriscena.Takodje pokazuje na "vlasnika" funkcije.
+This kljucna rec je treca komponenta svakog execution contexta pored scope chain-a i varible enviroment-a.
+
+-This nema staticnu vrednost.Zavisi od toga kako pozivamo funkciju,vrednost se tek dodeljuje kada se funkcija pozove.
+  -method this = Objekat koji poziva metodu
+  -Obicna funkcija this = undentifined u strict mode-u
+  -Arrow funkcija ne dobija svoju this kljucnu rec vec uzima this od "roditeljske" funkcije(lexical this)
+  -Event Listener this = sam DOM element
+*/
+
+console.log(this); //ukazuje na globalni window objekat
+
+const calcAge1 = function (birthYear) {
+  console.log(2022 - birthYear);
+  console.log(this); //undefined u strict mode-u
+};
+
+calcAge1(1988);
+
+const calcAgeArrow = birthYear => {
+  console.log(2022 - birthYear);
+  console.log(this); //pokazuje na globalni window objekat(lexical this)
+};
+
+calcAgeArrow(1988);
+
+const bojan = {
+  year: 1988,
+  calcAge: function () {
+    console.log(this); //pokazuje na sam "bojan" objekat
+  },
+};
+
+bojan.calcAge();
