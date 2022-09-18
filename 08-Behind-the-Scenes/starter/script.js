@@ -205,6 +205,7 @@ const addArrow = (a, b) => a + b;
 
 /*
 -------------THIS KEYWORD--------------------------
+
 This kljucna rec je specijalna varijabla koja je kreirana za svaki execution context(svaku funkciju).
 Uzima vrednost od "vlasnika" funkcije u kojoj je this kljucna rec koriscena.Takodje pokazuje na "vlasnika" funkcije.
 This kljucna rec je treca komponenta svakog execution contexta pored scope chain-a i varible enviroment-a.
@@ -240,3 +241,32 @@ const bojan = {
 };
 
 bojan.calcAge();
+
+/*
+-------------REGULAR FUNCTION VS ARROW FUNCTION--------------------------
+
+*/
+
+const bojan1 = {
+  firsName: 'Bojan',
+  year: 1988,
+  calcAge: function () {
+    console.log(2022 - this.year);
+  },
+
+  greet: () => console.log(`Hey ${this.firsName}`), //undifined zato sto ukazuje na globalni window objekat(arrow funkcije ne dobijaju this)
+};
+
+bojan1.greet();
+
+//Arguments keyword
+let output = 0;
+const addExpres = function (a, b) {
+  for (let i = 0; i < arguments.length; i++) {
+    output += arguments[i];
+  }
+};
+
+addExpres(2, 5, 6, 7, 8);
+
+console.log(output);
