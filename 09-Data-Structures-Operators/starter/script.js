@@ -27,3 +27,8 @@ const restaurant = {
     },
   },
 };
+
+/*
+Destructuring Array's
+bojan
+*/
