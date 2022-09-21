@@ -23,7 +23,7 @@ const restaurant = {
   },
 
   orderPasta: function (ing1, ing2, ing3) {
-    console.log(`Here is your delicious pasta with ${ing1}, ${ing2}, ${ing3}`);
+    // console.log(`Here is your delicious pasta with ${ing1}, ${ing2}, ${ing3}`);
   },
 
   openingHours: {
@@ -41,6 +41,30 @@ const restaurant = {
     },
   },
 };
+
+//Rest Operator
+const [one1, two, ...rest] = [1, 2, 3, 4, 5];
+// console.log(one1, two, rest);
+
+const [pizza, , risotto, ...otherFood] = [
+  ...restaurant.mainMenu,
+  ...restaurant.starterMenu,
+];
+
+// console.log(pizza, risotto, otherFood);
+
+// Rest operator whith functions
+const add = function (...numbers) {
+  let sum = 0;
+  for (let i = 0; i < numbers.length; i++) {
+    sum += numbers[i];
+  }
+  console.log(sum);
+};
+
+add(2, 3);
+add(2, 3, 4, 5, 6, 7);
+add(3, 6, 76, 7, 8, 9, 0);
 
 /*
 Spread operator
