@@ -17,9 +17,13 @@ const restaurant = {
   },
 
   orderDelevery: function ({ starterIndex, mainIndex, time, address }) {
-    console.log(
-      `Oreder recived!${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
-    );
+    // console.log(
+    //   `Oreder recived!${this.starterMenu[starterIndex]} and ${this.mainMenu[mainIndex]} will be delivered to ${address} at ${time}`
+    // );
+  },
+
+  orderPasta: function (ing1, ing2, ing3) {
+    console.log(`Here is your delicious pasta with ${ing1}, ${ing2}, ${ing3}`);
   },
 
   openingHours: {
@@ -38,16 +42,60 @@ const restaurant = {
   },
 };
 
+/*
+Spread operator
+*/
+const array = [7, 8, 9];
+
+const newArr = [1, 2, 3, ...array];
+
+// console.log(newArr);
+
+const newMenu = [...restaurant.mainMenu, 'Gnocci'];
+
+// console.log(newMenu);
+
+// copy array
+const mainMenuCopy = [...restaurant.mainMenu];
+// console.log(mainMenuCopy);
+
+const menu = [...restaurant.mainMenu, ...restaurant.starterMenu];
+
+// console.log(menu);
+
+const ingridient = [
+  // prompt("Let's make psta!ingrident 1?"),
+  // prompt('ingrident 2?'),
+  // prompt('ingrident 3?'),
+];
+
+restaurant.orderPasta(...ingridient);
+
+// Spred operator whit Object's
+const newRestourant = {
+  foundedIn: 1998,
+  ...restaurant,
+  founder: 'Bojan Mrkaja',
+};
+
+// console.log(newRestourant);
+
+const restaurantCopy = { ...restaurant };
+
+restaurantCopy.name = 'Tajna';
+
+// console.log(restaurantCopy.name);
+// console.log(restaurant.name);
+
+/*
+Destructuring Objects
+*/
 restaurant.orderDelevery({
   time: '22:30',
   address: 'Nikole Marakovica 13',
   starterIndex: 1,
   mainIndex: 2,
 });
-
-/*
-Destructuring Objects
-*/
 
 const { name, openingHours, categories } = restaurant;
 
