@@ -36,11 +36,69 @@ const restaurant = {
       close: 23,
     },
     sat: {
-      open: 0, // Open 24 hoursb
+      open: 0, // Open 24 hours
       close: 24,
     },
   },
 };
+//Map
+const resto = new Map();
+resto.set('name', 'Tajna pite i kolaci');
+resto.set(1, 'Beograd, Srbija');
+resto.set(1, 'Cacak, Srbija');
+
+resto
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'])
+  .set('open', 11)
+  .set('close', 21);
+
+// console.log(resto);
+// console.log(resto.get('name'));
+
+const qustion = new Map([
+  ['question', 'What is best programming lang in world?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'Java Script'],
+  ['corect', 3],
+  [true, 'Corect'],
+  [false, 'Try again'],
+]);
+
+console.log(qustion.get('question'));
+
+for (const [key, value] of qustion) {
+  if (typeof key === 'number') console.log(`Answer ${key} : ${value}`);
+}
+
+const answer = Number(prompt('Your Answer'));
+console.log(answer);
+
+console.log(qustion.get(qustion.get('corect') === answer));
+
+//Sets
+//Set ke kolekcija unikatnih/jedinstvenih vrednosti
+const orderSet = new Set(['pasta', 'pizza', 'risotto', 'pizza', 'pasta']);
+
+// console.log(orderSet.size);
+// console.log(orderSet.has('bread'));
+orderSet.add('carlic bread');
+// console.log(orderSet);
+
+for (const order of orderSet) {
+  // console.log(order);
+}
+
+const staff = ['Waiter', 'Chef', 'Waiter', 'Menager', 'Chef'];
+const noDuplicates = staff.filter((el, index) => staff.indexOf(el) === index);
+
+// console.log(noDuplicates);
+
+//convert set to array
+const staffUnique = [...new Set(staff)];
+
+// console.log(staffUnique);
+
 //for-of loop
 const menu1 = [...restaurant.starterMenu, ...restaurant.mainMenu];
 
@@ -361,9 +419,5 @@ for (const odd of odds) {
 //3
 for (const [team, odd] of Object.entries(game.odds)) {
   const teamStr = team === 'x' ? 'draw' : game[team];
-  console.log(`Odd of victory ${teamStr}: ${odd}`);
+  // console.log(`Odd of victory ${teamStr}: ${odd}`);
 }
-
-//       Odd of victory Bayern Munich: 1.33
-//       Odd of draw: 3.25
-//       Odd of victory Borrussia Dortmund: 6.5
