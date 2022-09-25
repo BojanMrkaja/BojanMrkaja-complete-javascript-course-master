@@ -146,6 +146,61 @@ const maskCreditCard = function (number) {
 console.log(maskCreditCard(26364849239));
 console.log(maskCreditCard(2637478589));
 
+// Coding Challenge #4
+
+/* 
+Write a program that receives a list of variable names written in underscore_case and convert them to camelCase.
+
+The input will come from a textarea inserted into the DOM (see code below), and conversion will happen when the button is pressed.
+
+THIS TEST DATA (pasted to textarea)
+underscore_case
+ first_name
+Some_Variable 
+  calculate_AGE
+delayed_departure
+
+SHOULD PRODUCE THIS OUTPUT (5 separate console.log outputs)
+underscoreCase      ✅
+firstName           ✅✅
+someVariable        ✅✅✅
+calculateAge        ✅✅✅✅
+delayedDeparture    ✅✅✅✅✅
+
+HINT 1: Remember which character defines a new line in the textarea 😉
+HINT 2: The solution only needs to work for a variable made out of 2 words, like a_b
+HINT 3: Start without worrying about the ✅. Tackle that only after you have the variable name conversion working 😉
+HINT 4: This challenge is difficult on purpose, so start watching the solution in case you're stuck. Then pause and continue!
+
+Afterwards, test with your own test data!
+
+GOOD LUCK 😀
+*/
+
+document.body.append(document.createElement('textarea'));
+document.body.append(document.createElement('button'));
+
+const textArea = document.querySelector('textarea');
+const btn = document.querySelector('button');
+
+btn.addEventListener('click', function () {
+  const text = document.querySelector('textarea').value;
+  const toArr = text.split('\n');
+  for (const [index, item] of toArr.entries()) {
+    const lowerTrimed = item.toLowerCase();
+    const firsWord = item
+      .slice(lowerTrimed[0], lowerTrimed.indexOf('_'))
+      .trim();
+    const secondWord = lowerTrimed.slice(lowerTrimed.indexOf('_') + 1).trim();
+    const capitalized = secondWord.replace(
+      secondWord[0],
+      secondWord[0].toUpperCase()
+    );
+
+    console.log(`${firsWord + capitalized.padEnd(20)}${'*'.repeat(index + 1)}`);
+  }
+});
+
 // Data needed for first part of the section
 const restaurant = {
   name: 'Classico Italiano',
