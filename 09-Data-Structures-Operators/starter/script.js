@@ -4,6 +4,148 @@
 const flights =
   '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
 
+//Working with strings
+const airliine = 'TAP Air Portugal';
+const plane = 'A320';
+
+console.log(plane[0]);
+console.log(plane[2]);
+console.log(plane[1]);
+console.log(airliine.length);
+
+//Methoda koja vraca odredjenu prvu poziciju slova u stringu
+//Ako ne nadje odredjeno slovo ili element vraca -1
+console.log(airliine.indexOf('r'));
+
+//Methoda koja vraca odredjenu poslednju poziciju slova u stringu
+console.log(airliine.lastIndexOf('r'));
+
+//Slice metoda izdvaja deo stringa i vraca izvuceni deo u novom stringu
+//Ova metoda uzima 2 parametra:pocetnu poziciju i krajnju poziciju(krajnja nije ukljucena)
+console.log(airliine.slice(4));
+console.log(airliine.slice(4, 7));
+//get first word of string
+console.log(airliine.slice(0, airliine.indexOf(' ')));
+//get last word of string
+console.log(airliine.slice(airliine.lastIndexOf(' ') + 1));
+
+console.log(airliine.slice(-2));
+
+const checkMiddleSeat = function (seat) {
+  //B and E are midlle seats
+  const s = seat.slice(-1);
+  if (s === 'B' || s === 'E') {
+    console.log('You got midlle seat');
+  } else {
+    console.log('You got lucky');
+  }
+};
+
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('12E');
+
+//Menjanje svih karaktera u stringu u mala slova
+console.log(airliine.toLocaleLowerCase());
+
+//Menjanje svih karaktera u stringu u velika slova
+console.log(airliine.toLocaleUpperCase());
+
+// const passenger = 'BOjAn';
+// const passengerLower = passenger.toLocaleLowerCase();
+// const passengerCorrect =
+//   passengerLower[0].toLocaleUpperCase() + passengerLower.slice(1);
+
+// console.log(passengerCorrect);
+
+const correctName = function (name) {
+  const nameLower = name.toLocaleLowerCase();
+  const nameCorrect = nameLower[0].toLocaleUpperCase() + nameLower.slice(1);
+
+  return nameCorrect;
+};
+
+console.log(correctName('BoRiS'));
+console.log(correctName('TANJa'));
+console.log(correctName('FiLIp'));
+
+const email = 'bojan@gmail.com';
+const loginEmail = ' Bojan@Gmail.com ';
+
+const lowerEmail = loginEmail.toLowerCase();
+const trimedEmail = lowerEmail.trim();
+
+console.log(trimedEmail === email);
+
+//Replace part of strings
+const priceEU = '288,93e';
+const priceUS = priceEU.replace(',', '.').replace('e', '$');
+
+console.log(priceUS);
+
+//Replace door with gate
+const announcment = 'All passenger come to boarding door 23.Bourding door 23';
+console.log(announcment.replaceAll('door', 'gate'));
+
+//Booleans
+const plane1 = 'A320neo';
+console.log(plane1.includes('A320'));
+console.log(plane1.startsWith('A3'));
+console.log(plane1.endsWith('neo'));
+
+const checkBaggege = function (items) {
+  const itemsToLower = items.toLowerCase();
+  if (itemsToLower.includes('gun') || itemsToLower.includes('knife')) {
+    console.log('You are not allowed to board');
+  } else {
+    console.log('You can board, Welcome');
+  }
+};
+
+checkBaggege('I have laptop, some food and pocket Knife');
+checkBaggege('Socks and camera');
+checkBaggege('Got some snacks and Gun for protection');
+
+//Split method
+console.log('a+very+nice+string'.split('+'));
+console.log('Bojan Mrkaja'.split(' '));
+
+//split with destructuring
+const [firstName, lastName] = 'Bojan Mrkaja'.split(' ');
+
+//join method
+const joined = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(joined);
+
+const capitalized = function (name) {
+  const toLowerArr = name.toLowerCase().split(' ');
+  const newArr = [];
+  for (const n of toLowerArr) {
+    newArr.push(n[0].toUpperCase() + n.slice(1));
+  }
+
+  return newArr.join(' ');
+};
+
+console.log(capitalized('bojan mrkaja'));
+console.log(capitalized('boris mrkaja'));
+console.log(capitalized('jessica ann smith davis'));
+
+//Padding string
+const message = 'Go to gate 23';
+
+console.log(message.padStart(25, '+'));
+
+const maskCreditCard = function (number) {
+  const toString = String(number);
+  const lastFour = toString.slice(-4);
+
+  return lastFour.padStart(toString.length, '*');
+};
+
+console.log(maskCreditCard(26364849239));
+console.log(maskCreditCard(2637478589));
+
 // Data needed for first part of the section
 const restaurant = {
   name: 'Classico Italiano',
@@ -41,7 +183,7 @@ const restaurant = {
     },
   },
 };
-//Map
+//Maps
 const resto = new Map();
 resto.set('name', 'Tajna pite i kolaci');
 resto.set(1, 'Beograd, Srbija');
@@ -458,15 +600,15 @@ const events = [...new Set(gameEvents.values())];
 gameEvents.delete(64);
 
 //3
-console.log(
-  `An event happened, on average, every ${90 / gameEvents.size} minutes`
-);
+// console.log(
+//   `An event happened, on average, every ${90 / gameEvents.size} minutes`
+// );
 
 //4.
 for (const [key, value] of gameEvents) {
   if (key <= 45) {
-    console.log(`[FIRST HALF] ${key}: ${value}`);
+    // console.log(`[FIRST HALF] ${key}: ${value}`);
   } else if (key > 45) {
-    console.log(`[SECOND HALF] ${key}: ${value}`);
+    // console.log(`[SECOND HALF] ${key}: ${value}`);
   }
 }
