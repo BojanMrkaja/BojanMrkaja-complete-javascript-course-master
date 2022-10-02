@@ -143,3 +143,21 @@ book.apply(lufthansa, flightData);
 
 //using spread operator to get arguments from array
 book.call(eurowings, ...flightData);
+
+//Bind method
+const bookEw = book.bind(eurowings);
+
+bookEw(24, 'Mladen Mrkaja');
+
+//With Event Listeners
+
+lufthansa.planes = 200;
+lufthansa.buyPlane = function () {
+  console.log(this);
+  this.planes++;
+  console.log(this.planes);
+};
+
+document
+  .querySelector('.buy')
+  .addEventListener('click', lufthansa.buyPlane.bind(lufthansa));
