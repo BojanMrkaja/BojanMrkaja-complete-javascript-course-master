@@ -50,3 +50,38 @@ const newPassport = function (person) {
 
 newPassport(bojan);
 checkIn(flight, bojan);
+
+//FIRST-CLASS AND HIGHER ORDER FUNCTION
+
+/*
+U java script programskom jeziku se koriste first class funkcije sto znaci
+da se one tretiraju kao obicne vrednosti(values).
+
+1.mozemo da skladistiomo funkcije u varijable ili properies u objektima
+2.Mozemo da prosledimo funkciju kao argument u drugu funkciju
+3.Mozemo da vratimo funkciju iz druge funkcije
+4.Mozemo da pozivamo metodu na funkcijama
+
+HIGHER-ORDER FUNCTION
+-Funkcija koja prima neku drugu funkciju kao argument, onda vraca drugu funkciju, ili i jedno i drugo.
+-Ovo je moguce zahvaljujuci first-class funkcijama
+
+*/
+
+const oneWord = function (str) {
+  return str.replaceAll(' ', '').toLowerCase();
+};
+
+const upperFirstWord = function (str) {
+  const [first, ...others] = str.split(' ');
+  return [first.toUpperCase(), ...others].join(' ');
+};
+
+//Higher-Order function
+
+const transformer = function (str, fn) {
+  console.log(`Transformed string: ${fn(str)}`);
+};
+
+transformer('Java Script is the best', upperFirstWord);
+transformer('Java Script is the best', oneWord);
