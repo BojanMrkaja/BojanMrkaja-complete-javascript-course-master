@@ -80,8 +80,25 @@ const upperFirstWord = function (str) {
 //Higher-Order function
 
 const transformer = function (str, fn) {
-  console.log(`Transformed string: ${fn(str)}`);
+  //   console.log(`Transformed string: ${fn(str)}`);
 };
 
 transformer('Java Script is the best', upperFirstWord);
 transformer('Java Script is the best', oneWord);
+
+//FUNCTION RETURNIG FUNCTIONS
+
+const greet = function (greeting) {
+  return function (name) {
+    console.log(`${greeting} ${name}`);
+  };
+};
+
+const greeter = greet('hey');
+
+greeter('Bojan');
+
+//Useing arrow function
+const greetArrow = greeting => name => console.log(`${greeting} ${name}`);
+
+greetArrow('Zdravo')('Filipe');
