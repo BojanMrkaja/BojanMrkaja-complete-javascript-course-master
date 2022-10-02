@@ -102,3 +102,44 @@ greeter('Bojan');
 const greetArrow = greeting => name => console.log(`${greeting} ${name}`);
 
 greetArrow('Zdravo')('Filipe');
+
+//CALL AND APPLY METHODS
+
+const lufthansa = {
+  airline: 'Lufthansa',
+  iatacode: 'LH',
+  bookings: [],
+  book(flightNum, name) {
+    console.log(
+      `${name} booked a seat on ${this.airline} flight ${this.iatacode}${flightNum}`
+    );
+
+    this.bookings.push({ flight: `${this.iatacode}${flightNum}`, name });
+  },
+};
+
+lufthansa.book(239, 'Bojan Mrkja');
+lufthansa.book(112, 'Boris Mrkja');
+
+const eurowings = {
+  airline: 'Eurowings',
+  iatacode: 'EW',
+  bookings: [],
+};
+
+const book = lufthansa.book;
+
+book.call(eurowings, 23, 'Petar Petrovic');
+book.call(lufthansa, 44, 'Brankica Plazinic');
+
+console.log(eurowings);
+console.log(lufthansa);
+
+//Apply method
+
+const flightData = [567, 'Teodora Vukovic'];
+
+book.apply(lufthansa, flightData);
+
+//using spread operator to get arguments from array
+book.call(eurowings, ...flightData);
