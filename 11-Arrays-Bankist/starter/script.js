@@ -74,3 +74,67 @@ const currencies = new Map([
 const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
 
 /////////////////////////////////////////////////
+
+let arr = ['a', 'b', 'c', 'd', 'e'];
+
+//SLICE METHOD
+//slice metoda vraca izabrane elemente u nizu, kao novi niz
+//slice metoda ne menja originalni niz
+console.log(arr.slice(2));
+
+//slice with end parameter
+console.log(arr.slice(2, 4));
+
+//negativ parameter
+console.log(arr.slice(-2));
+
+//last element of array
+console.log(arr.slice(-1));
+
+//copy array with slice
+console.log(arr.slice());
+
+//SPLICE METHOD
+//splice metoda dodaje i/ili uklanja elemente iz niza
+//splice metoda menja originalni niz
+
+console.log(arr.splice(2));
+
+//remove last element of array
+console.log(arr.splice(-1));
+
+//first parameter
+//Položaj za dodavanje/uklanjanje elemenata
+
+//second parameter
+//Broj elemenata koje treba ukloniti.
+
+//Ostali opcioni parametri
+//Novi elementi za dodavanje.
+console.log(arr.splice(-1, 1, 'f', 'g'));
+console.log(arr);
+
+//REVERSE METHOD
+//reverse metoda menja raspored elemenata u nizu
+//reverse metoda menja originalni niz
+
+arr = ['a', 'b', 'c', 'd', 'e'];
+
+let arr2 = ['j', 'i', 'h', 'g', 'f'];
+
+console.log(arr2.reverse());
+
+//CONCAT METHOD
+//metoda spaja dva ili više nizova.
+//metoda vraća novi niz, koji sadrži spojene nizove.
+//metoda ne menja originalni niz.
+
+const letters = arr.concat(arr2);
+console.log(letters);
+
+//JOIN METHOD
+//method returns an array as a string.
+//metoda ne menja originalni niz.
+//Može se navesti bilo koji separator. default je zarez (,)
+
+console.log(letters.join('-'));
