@@ -234,3 +234,16 @@ const addAnswers = poll.registerNewAnswer;
 document
   .querySelector('.poll')
   .addEventListener('click', addAnswers.bind(poll));
+
+// BONUS TEST DATA 1: [5, 2, 3]
+// BONUS TEST DATA 2: [1, 5, 3, 9, 6, 1]
+
+const display = poll.displayResults;
+
+display.call({ answers: [5, 2, 3] }, 'string');
+
+//IMMEDIATELY INVOKED FUNCTION (IIFE)
+
+(function () {
+  console.log('Run only once');
+})();
