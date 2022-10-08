@@ -138,3 +138,45 @@ console.log(letters);
 //Može se navesti bilo koji separator. default je zarez (,)
 
 console.log(letters.join('-'));
+
+//LOOPING ARRAY'S:FOREACH METHOD
+
+const movementOfAcount = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+for (const [index, movement] of movementOfAcount.entries()) {
+  if (movement > 0) {
+    console.log(`${index + 1}:Client deposit ${movement}`);
+  } else {
+    console.log(`${index + 1}:Client witdraw ${Math.abs(movement)}`);
+  }
+}
+
+console.log('--------FOREACH----------');
+
+movementOfAcount.forEach(function (movement, index) {
+  if (movement > 0) {
+    console.log(`${index + 1}:Client deposit ${movement}`);
+  } else {
+    console.log(`${index + 1}:Client witdraw ${Math.abs(movement)}`);
+  }
+});
+
+//FOREACH WITH MAPS AND SETS
+
+const currencies2 = new Map([
+  ['USD', 'United States dollar'],
+  ['EUR', 'Euro'],
+  ['GBP', 'Pound sterling'],
+]);
+
+currencies2.forEach(function (value, key) {
+  console.log(`${value}: ${key}`);
+});
+
+const currenciesUnique = new Set(['USD', 'EUR', 'USD', 'GBP', 'EUR', 'USD']);
+
+console.log(currenciesUnique);
+
+currenciesUnique.forEach(function (value, _, map) {
+  console.log(`${value}: ${value}`);
+});
