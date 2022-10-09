@@ -273,7 +273,6 @@ const calcAverageHumanAge = function (ages) {
 };
 
 calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
-calcAverageHumanAge([16, 6, 10, 5, 6, 1, 4]);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -348,7 +347,7 @@ const displayMovments = function (movements) {
       index + 1
     } ${type}</div>
         <div class="movements__date">3 days ago</div>
-        <div class="movements__value">${movement}</div>
+        <div class="movements__value">${movement} eur</div>
       </div>
   `;
 
@@ -381,3 +380,31 @@ const calcPrintBalance = function (movements) {
 };
 
 calcPrintBalance(account1.movements);
+
+const calcDisplaySummry = function (movements) {
+  const incomes = movements
+    .filter(movement => movement > 0)
+    .reduce((accumulator, currentMov) => {
+      return accumulator + currentMov;
+    }, 0);
+
+  const expense = movements
+    .filter(movement => movement < 0)
+    .reduce((acc, currMov) => {
+      return acc + currMov;
+    }, 0);
+
+  const intrest = movements
+    .filter(movement => movement > 0)
+    .map(deposit => (deposit * 1.2) / 100)
+    .filter(int => int >= 1)
+    .reduce((acc, int) => {
+      return acc + int;
+    }, 0);
+
+  labelSumIn.textContent = `${incomes}EUR`;
+  labelSumOut.textContent = `${Math.abs(expense)}EUR`;
+  labelSumInterest.textContent = `${intrest}EUR`;
+};
+
+calcDisplaySummry(account1.movements);
