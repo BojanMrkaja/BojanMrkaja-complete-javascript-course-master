@@ -188,7 +188,6 @@ checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
 //Reduce metoda ne menja originalni niz.
 
 //Map metohod
-
 const eurToUsd = 1.1;
 
 const usd = movementOfAcount.map(movment => movment * eurToUsd);
@@ -202,6 +201,15 @@ const toUsd = movementOfAcount.map((movement, index) => {
 
 console.log(usd);
 console.log(toUsd);
+
+//Filter method
+const deposit = movementOfAcount.filter(movement => movement > 0);
+
+console.log(deposit);
+
+const withdrawal = movementOfAcount.filter(movement => movement < 0);
+
+console.log(withdrawal);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
