@@ -157,7 +157,7 @@ const checkDogs = function (dogsJulia, dogsKate) {
   concatArr.forEach(function (dogAge, index) {
     if (dogAge >= 3) {
       console.log(
-        `Dog number ${index + 1} is an adult, and is ${dogAge} years old`
+        `Dog number ${index + 1} is an adu lt, and is ${dogAge} years old`
       );
     } else {
       console.log(`Dog number ${index + 1} is still a puppy 🐶`);
@@ -170,6 +170,38 @@ checkDogs([3, 5, 2, 12, 7], [4, 1, 15, 8, 3]);
 console.log('------TEST DATA 2-------');
 
 checkDogs([9, 16, 6, 8, 3], [10, 5, 6, 1, 4]);
+
+//--------DATA TRANSFORMATION:MAP, FILTER , REDUCE----------
+
+//Map metoda kreira novi niz pozivanjem funkcije za svaki element niza.
+//Map metoda poziva funkciju jednom za svaki element u nizu.
+//Map metoda ne izvršava funkciju za prazne elemente.
+//Map metoda ne menja originalni niz.
+
+//Filter metoda metoda kreira novi niz ispunjen elementima koji prolaze test koji obezbeđuje funkcija.
+////Filter metoda ne izvršava funkciju za prazne elemente.
+//Filter metoda ne menja originalni niz.
+
+//Reduce metoda izvršava funkciju reduktora za element niza.
+//Reduce metoda vraća jednu vrednost: akumulirani rezultat funkcije.
+////Reduce metoda ne izvršava funkciju za prazne elemente.
+//Reduce metoda ne menja originalni niz.
+
+//Map metohod
+
+const eurToUsd = 1.1;
+
+const usd = movementOfAcount.map(movment => movment * eurToUsd);
+const toUsd = movementOfAcount.map((movement, index) => {
+  if (movement > 0) {
+    return `${index + 1}:Client deposit ${movement}`;
+  } else {
+    return `${index + 1}:Client witdraw ${Math.abs(movement)}`;
+  }
+});
+
+console.log(usd);
+console.log(toUsd);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
