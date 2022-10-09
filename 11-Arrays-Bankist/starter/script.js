@@ -285,3 +285,17 @@ const displayMovments = function (movements) {
 };
 
 displayMovments(account1.movements);
+
+const createUserName = function (accounts) {
+  accounts.forEach(account => {
+    const userName = account.owner
+      .toLowerCase()
+      .split(' ')
+      .map(letters => letters[0])
+      .join('');
+
+    account.username = userName;
+  });
+};
+
+createUserName(accounts);
