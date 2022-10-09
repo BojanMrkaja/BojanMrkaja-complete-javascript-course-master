@@ -211,6 +211,29 @@ const withdrawal = movementOfAcount.filter(movement => movement < 0);
 
 console.log(withdrawal);
 
+//Reduce method
+const balance = movementOfAcount.reduce(
+  (accumulator, currentElement, index) => {
+    console.log(`Iteration ${index}:${accumulator}`);
+
+    return accumulator + currentElement;
+  },
+  0
+);
+
+console.log(balance);
+
+//max value with reduce
+const maxValue = movementOfAcount.reduce((accumulator, currentElement) => {
+  if (accumulator > currentElement) {
+    return accumulator;
+  } else {
+    return currentElement;
+  }
+}, movementOfAcount[0]);
+
+console.log(maxValue);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
@@ -307,3 +330,13 @@ const createUserName = function (accounts) {
 };
 
 createUserName(accounts);
+
+const calcPrintBalance = function (movements) {
+  const balance = movements.reduce((accumulator, currentElement) => {
+    return accumulator + currentElement;
+  }, 0);
+
+  labelBalance.textContent = `${balance} EUR`;
+};
+
+calcPrintBalance(account1.movements);
