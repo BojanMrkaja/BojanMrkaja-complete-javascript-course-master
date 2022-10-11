@@ -234,6 +234,16 @@ const maxValue = movementOfAcount.reduce((accumulator, currentElement) => {
 
 console.log(maxValue);
 
+//find method
+//find metoda vraća vrednost prvog elementa koji prođe test.
+//find metoda izvršava funkciju za svaki element niza.
+//find metoda vraća undefined  ako nije pronađen nijedan element.
+//finde metoda ne menja originalni niz
+
+const firstLessEl = movementOfAcount.find(mov => mov < 0);
+
+console.log(firstLessEl);
+
 ///////////////////////////////////////
 // Coding Challenge #2
 
