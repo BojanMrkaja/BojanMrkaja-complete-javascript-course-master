@@ -316,6 +316,31 @@ const arrDeep = [[[4, 5, 6], 2, 3], [4, [7, 6, 4], 6], 7, 8];
 //pass deeped argument to flat method
 console.log(arrDeep.flat(2));
 
+//Sorting arrays
+
+//sort metoda sortira elemente niza.
+//sort metoda menja originalni niz
+//sort metoda sortira elemente kao STRINGOVE po abecednom i rastućem redosledu.
+
+const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+
+console.log(owners.sort());
+
+//sort with numbers
+
+//return < 0 a, b (keep order)
+//return > 0 b, a (switch order)
+
+//Ascending
+movements.sort((a, b) => a - b);
+
+console.log(movements);
+
+//Descending
+movements.sort((a, b) => b - a);
+
+console.log(movements);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
@@ -386,10 +411,12 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 let currentAccaount;
 
-const displayMovments = function (movements) {
+const displayMovments = function (movements, sort = false) {
   containerMovements.innerHTML = '';
 
-  movements.forEach(function (movement, index) {
+  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+
+  movs.forEach(function (movement, index) {
     const type = movement > 0 ? 'deposit' : 'withdrawal';
 
     const output = ` 
@@ -542,4 +569,12 @@ btnLoan.addEventListener('click', function (e) {
     updateUI();
     inputLoanAmount.value = '';
   }
+});
+
+let sorted = false;
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  displayMovments(currentAccaount.movements, !sorted);
+  sorted = !sorted;
 });
