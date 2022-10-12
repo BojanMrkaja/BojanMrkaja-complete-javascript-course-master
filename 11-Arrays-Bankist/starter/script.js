@@ -341,6 +341,28 @@ movements.sort((a, b) => b - a);
 
 console.log(movements);
 
+//filling arrays
+const x = new Array(7);
+
+x.fill(1, 3);
+
+console.log(x);
+
+//array from method
+const arrFrom = Array.from({ length: 7 }, () => 1);
+console.log(arrFrom);
+
+const count = Array.from({ length: 7 }, (_, i) => ++i);
+console.log(count);
+
+//100 random dice rolls
+const rollDice = Array.from(
+  { length: 100 },
+  roll => (roll = Math.trunc(Math.random() * 6) + 1)
+);
+
+console.log(rollDice);
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
@@ -409,6 +431,14 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+labelBalance.addEventListener('click', function () {
+  const movementsUI = Array.from(
+    document.querySelectorAll('.movements__value')
+  ).map(el => Number(el.textContent.replace('eur', '')));
+
+  console.log(movementsUI);
+});
+
 let currentAccaount;
 
 const displayMovments = function (movements, sort = false) {
@@ -425,7 +455,7 @@ const displayMovments = function (movements, sort = false) {
       index + 1
     } ${type}</div>
         <div class="movements__date">3 days ago</div>
-        <div class="movements__value">${movement} eur</div>
+        <div class="movements__value">${movement}eur</div>
       </div>
   `;
 
