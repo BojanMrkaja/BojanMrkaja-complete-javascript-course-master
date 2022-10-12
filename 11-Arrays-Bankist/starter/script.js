@@ -306,6 +306,16 @@ console.log(deposit2);
 
 console.log(movements.every(mov => mov > 0));
 
+//flat and flatmap methods
+const arrFlat = [[1, 2, 3], [4, 5, 6], 7, 8];
+
+console.log(arrFlat.flat());
+
+const arrDeep = [[[4, 5, 6], 2, 3], [4, [7, 6, 4], 6], 7, 8];
+
+//pass deeped argument to flat method
+console.log(arrDeep.flat(2));
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
@@ -340,6 +350,13 @@ const account4 = {
 };
 
 const accounts = [account1, account2, account3, account4];
+
+const accountMovments = accounts.map(acc => acc.movements);
+const allBalance = accountMovments
+  .flat()
+  .reduce((acc, currentElement) => (acc += currentElement), 0);
+
+console.log(allBalance);
 
 // Elements
 const labelWelcome = document.querySelector('.welcome');
