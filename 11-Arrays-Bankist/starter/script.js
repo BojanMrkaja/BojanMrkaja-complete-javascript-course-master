@@ -284,6 +284,28 @@ const calcAverageHumanAge = function (ages) {
 
 calcAverageHumanAge([5, 2, 4, 1, 15, 8, 3]);
 
+//some and every methods
+
+//some metoda proverava da li neki elementi niza prolaze test (obezbeđen kao callback funkcija)
+//some metoda izvršava callback funkciju jednom za svaki element niza.
+//some metoda vraća true (i zaustavlja) ako funkcija vraća true za jedan od elemenata niza.
+//some metoda vraća false ako funkcija vraća false za sve elemente niza.
+//some metoda ne menja originalni niz
+
+console.log(movements);
+console.log(movements.includes(-130));
+
+const deposit2 = movements.some(mov => mov > 0);
+
+console.log(deposit2);
+
+//every metoda izvršava funkciju za svaki element niza.
+//every metoda vraća true ako funkcija vraća true za sve elemente.
+//every metoda vraća false ako funkcija vraća false za jedan element.
+//every metoda ne menja originalni niz
+
+console.log(movements.every(mov => mov > 0));
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // BANKIST APP
@@ -488,5 +510,19 @@ btnClose.addEventListener('click', function (e) {
     containerApp.style.opacity = 0;
 
     inputCloseUsername.value = '';
+  }
+});
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const amount = Number(inputLoanAmount.value);
+
+  if (
+    amount > 0 &&
+    currentAccaount.movements.some(mov => mov >= amount * 0.1)
+  ) {
+    currentAccaount.movements.push(amount);
+    updateUI();
+    inputLoanAmount.value = '';
   }
 });
