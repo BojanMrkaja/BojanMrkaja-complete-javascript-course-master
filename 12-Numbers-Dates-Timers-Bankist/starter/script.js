@@ -318,3 +318,27 @@ labelBalance.addEventListener('click', function () {
     }
   });
 });
+
+//CREATE DATES
+
+const now = new Date();
+
+console.log(now.toISOString());
+
+console.log(new Date(2034, 10, 19, 15, 23, 4).toISOString());
+
+console.log(new Date(0).toISOString());
+
+const future = new Date(2034, 10, 19, 15, 23, 4);
+
+console.log(future.getFullYear());
+console.log(future.getMonth() + 1);
+console.log(future.getDate());
+console.log(future.getDay());
+console.log(future.getHours());
+console.log(future.getMinutes());
+console.log(future.getSeconds());
+
+console.log(future.getTime());
+
+console.log(Date.now());
