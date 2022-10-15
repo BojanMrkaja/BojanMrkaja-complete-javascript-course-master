@@ -162,7 +162,7 @@ btnLogin.addEventListener('click', function (e) {
   currentAccount = accounts.find(
     acc => acc.username === inputLoginUsername.value
   );
-  console.log(currentAccount);
+  // console.log(currentAccount);
 
   if (currentAccount?.pin === +inputLoginPin.value) {
     // Display UI and message
@@ -299,3 +299,22 @@ console.log(Math.floor(22.44));
 //rounding decimals
 console.log((2.5).toFixed(1));
 console.log((2.3).toFixed(3));
+
+//THE REMAINDER OPERATOR
+console.log(5 % 2); // 5 = 2 * 2 + 1 is reminder
+console.log(8 % 3); // 8 = 3 * 2 + 2 is reminder
+
+//if number is even
+const isEven = n => n % 2 === 0;
+
+console.log(isEven(8));
+console.log(isEven(55));
+console.log(isEven(188));
+
+labelBalance.addEventListener('click', function () {
+  [...document.querySelectorAll('.movements__row')].forEach((row, index) => {
+    if (isEven(index)) {
+      // row.style.backgroundColor = 'orangered';
+    }
+  });
+});
