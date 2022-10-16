@@ -80,20 +80,62 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 /////////////////////////////////////////////////
 // Functions
+//create current date and time
+
+const now2 = new Date();
+const year = now2.getFullYear();
+const month = `${now2.getMonth() + 1}`.padStart(2, 0);
+const day = `${now2.getDate()}`.padStart(2, 0);
+let hour = `${now2.getHours()}`.padStart(2, 0);
+let min = `${now2.getMinutes()}`.padStart(2, 0);
+let sec = `${now2.getSeconds()}`.padStart(2, 0);
+const tick = function () {
+  sec++;
+  if (sec === 60) {
+    sec = `${0}`.padStart(2, 0);
+    min++;
+  }
+  if (min === 60) {
+    min = `${0}`.padStart(2, 0);
+    hour++;
+  }
+  if (hour === 24) {
+    hour = `${0}`.padStart(2, 0);
+  }
+  sec = `${sec++}`.padStart(2, 0);
+  min = `${min++}`.padStart(2, 0);
+  hour = `${hour++}`.padStart(2, 0);
+  labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}:${sec}`;
+};
+
+tick();
+
+setInterval(tick, 1000);
+
 const formatMovmentsDate = function (date, locale) {
   const calcDaysPassed = (date1, date2) =>
     Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
   const daysPassed = calcDaysPassed(new Date(), date);
-  if (daysPassed === 0) return `Today`;
-  if (daysPassed === 1) return `Yesterday`;
-  if (daysPassed <= 7) return `${daysPassed} days ago`;
+  const hour = `${date.getHours()}`.padStart(2, 0);
+  const min = `${date.getMinutes()}`.padStart(2, 0);
+  const sec = `${date.getSeconds()}`.padStart(2, 0);
+  if (daysPassed === 0) return `Today at ${hour}:${min}:${sec}`;
+  if (daysPassed === 1) return `Yesterday at ${hour}:${min}:${sec}`;
+  if (daysPassed <= 7) return `${daysPassed} days ago at ${hour}:${min}:${sec}`;
 
   // const day = `${date.getDate()}`.padStart(2, 0);
   // const month = `${date.getMonth() + 1}`.padStart(2, 0);
   // const year = date.getFullYear();
   // return `${day}/${month}/${year}`;
+  const options = {
+    hour: 'numeric',
+    minute: 'numeric',
+    day: 'numeric',
+    month: 'numeric',
+    year: 'numeric',
+  };
 
-  return new Intl.DateTimeFormat(locale).format(date);
+  return new Intl.DateTimeFormat(locale, options).format(date);
 };
 
 const formatCurrency = function (value, locale, currency) {
@@ -244,34 +286,6 @@ btnLogin.addEventListener('click', function (e) {
       currentAccount.owner.split(' ')[0]
     }`;
     containerApp.style.opacity = 100;
-
-    //create current date and time
-    //INTERNATIONALIZING DATES(INTL)
-    const now2 = new Date();
-    const year = now2.getFullYear();
-    const month = `${now2.getMonth() + 1}`.padStart(2, 0);
-    const day = `${now2.getDate()}`.padStart(2, 0);
-    let hour = `${now2.getHours()}`.padStart(2, 0);
-    let min = `${now2.getMinutes()}`.padStart(2, 0);
-    let sec = `${+now.getSeconds()}`.padStart(2, 0);
-    const tick = function () {
-      sec++;
-      if (sec === 60) {
-        sec = `${0}`.padStart(2, 0);
-        min++;
-      }
-      if (min === 60) {
-        min = `${0}`.padStart(2, 0);
-        hour++;
-      }
-      sec = `${sec++}`.padStart(2, 0);
-      min = `${min++}`.padStart(2, 0);
-      labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}:${sec}`;
-    };
-
-    tick();
-
-    setTime = setInterval(tick, 1000);
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
