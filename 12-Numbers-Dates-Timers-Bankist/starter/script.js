@@ -222,7 +222,7 @@ const StartLogOutTimer = function () {
 
 ///////////////////////////////////////
 // Event handlers
-let currentAccount, timer;
+let currentAccount, timer, setTime;
 
 //fake login
 // currentAccount = account1;
@@ -248,19 +248,30 @@ btnLogin.addEventListener('click', function (e) {
     //create current date and time
     //INTERNATIONALIZING DATES(INTL)
     const now2 = new Date();
-    const options = {
-      hour: 'numeric',
-      minute: 'numeric',
-      day: 'numeric',
-      month: '2-digit',
-      year: 'numeric',
-      weekday: 'long',
+    const year = now2.getFullYear();
+    const month = `${now2.getMonth() + 1}`.padStart(2, 0);
+    const day = `${now2.getDate()}`.padStart(2, 0);
+    let hour = `${now2.getHours()}`.padStart(2, 0);
+    let min = `${now2.getMinutes()}`.padStart(2, 0);
+    let sec = `${+now.getSeconds()}`.padStart(2, 0);
+    const tick = function () {
+      sec++;
+      if (sec === 60) {
+        sec = `${0}`.padStart(2, 0);
+        min++;
+      }
+      if (min === 60) {
+        min = `${0}`.padStart(2, 0);
+        hour++;
+      }
+      sec = `${sec++}`.padStart(2, 0);
+      min = `${min++}`.padStart(2, 0);
+      labelDate.textContent = `${day}/${month}/${year}, ${hour}:${min}:${sec}`;
     };
-    const locale = currentAccount.locale;
 
-    labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(
-      now2
-    );
+    tick();
+
+    setTime = setInterval(tick, 1000);
 
     // Clear input fields
     inputLoginUsername.value = inputLoginPin.value = '';
