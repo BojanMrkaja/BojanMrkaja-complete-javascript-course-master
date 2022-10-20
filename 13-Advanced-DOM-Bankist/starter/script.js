@@ -162,3 +162,9 @@ const h1 = document.querySelector('h1');
 h1.addEventListener('mouseenter', function (e) {
   alert('addEventListener: Great');
 });
+
+h1.addEventListener('click', function () {
+
+})
+
+
