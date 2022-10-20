@@ -94,3 +94,43 @@ document
   .addEventListener('click', function () {
     message.remove();
   });
+
+//Styles
+
+message.style.backgroundColor = 'red';
+message.style.width = '120%';
+
+//get style properties and values
+console.log(getComputedStyle(message).color);
+
+//incres hight of element
+message.style.height =
+  Number.parseFloat(getComputedStyle(message).height, 10) + 40 + 'px';
+
+//change css variables
+document.documentElement.style.setProperty('--color-primary', 'orangered');
+
+//Attributes
+const logo = document.querySelector('.nav__logo');
+console.log(logo.alt);
+//get absolute path of src attribute
+console.log(logo.src);
+console.log(logo.className);
+
+//get custom attributes
+console.log(logo.getAttribute('designer'));
+
+//set attributes
+logo.alt = 'Minimalistic logo';
+logo.setAttribute('company', 'Bankist');
+//get relativ path of src attribute
+console.log(logo.getAttribute('src'));
+
+//data attributes
+console.log(logo.dataset.virsionNumber);
+
+//classes
+logo.classList.add('c');
+logo.classList.remove('c');
+logo.classList.toggle('c');
+logo.classList.contains('c');
