@@ -56,81 +56,101 @@ DOM je veoma kompleksan API koji sadrzi mnogo metoda i properties-a za interakci
   etc.
 */
 
-console.log(document.documentElement);
+// console.log(document.documentElement);
 
-const header = document.querySelector('.header');
-const allSection = document.querySelectorAll('.section'); //return node list
+// const header = document.querySelector('.header');
+// const allSection = document.querySelectorAll('.section'); //return node list
 
-console.log(allSection);
+// console.log(allSection);
 
-document.getElementById('section--1');
+// document.getElementById('section--1');
 
-const allBtns = document.getElementsByTagName('button'); //return HTML Collection
-//HTML collection se azurira u realnom vremenu za razliku od node liste
+// const allBtns = document.getElementsByTagName('button'); //return HTML Collection
+// //HTML collection se azurira u realnom vremenu za razliku od node liste
 
-console.log(allBtns);
+// console.log(allBtns);
 
-const btnClass = document.getElementsByClassName('btn'); //return HTML Collection
-console.log(btnClass);
+// const btnClass = document.getElementsByClassName('btn'); //return HTML Collection
+// console.log(btnClass);
 
-//Creating and inserting elements
+// //Creating and inserting elements
 
-const message = document.createElement('div');
-message.classList.add('cookie-message');
-message.innerHTML = `
-We use cookies for improved functionality and analitycs
-<button class="btn btn-close-cookie">Got it!</button>
-`;
+// const message = document.createElement('div');
+// message.classList.add('cookie-message');
+// message.innerHTML = `
+// We use cookies for improved functionality and analitycs
+// <button class="btn btn-close-cookie">Got it!</button>
+// `;
 
-header.prepend(message);
-// header.append(message);
+// header.prepend(message);
+// // header.append(message);
 
-//da ubacimo isti DOM element na vise mjesta
-header.append(message.cloneNode(true));
+// //da ubacimo isti DOM element na vise mjesta
+// header.append(message.cloneNode(true));
 
-//delete elements
-document
-  .querySelector('.btn-close-cookie')
-  .addEventListener('click', function () {
-    message.remove();
-  });
+// //delete elements
+// document
+//   .querySelector('.btn-close-cookie')
+//   .addEventListener('click', function () {
+//     message.remove();
+//   });
 
-//Styles
+// //Styles
 
-message.style.backgroundColor = 'red';
-message.style.width = '120%';
+// message.style.backgroundColor = 'red';
+// message.style.width = '120%';
 
-//get style properties and values
-console.log(getComputedStyle(message).color);
+// //get style properties and values
+// console.log(getComputedStyle(message).color);
 
-//incres hight of element
-message.style.height =
-  Number.parseFloat(getComputedStyle(message).height, 10) + 40 + 'px';
+// //incres hight of element
+// message.style.height =
+//   Number.parseFloat(getComputedStyle(message).height, 10) + 40 + 'px';
 
-//change css variables
-document.documentElement.style.setProperty('--color-primary', 'orangered');
+// //change css variables
+// document.documentElement.style.setProperty('--color-primary', 'orangered');
 
-//Attributes
-const logo = document.querySelector('.nav__logo');
-console.log(logo.alt);
-//get absolute path of src attribute
-console.log(logo.src);
-console.log(logo.className);
+// //Attributes
+// const logo = document.querySelector('.nav__logo');
+// console.log(logo.alt);
+// //get absolute path of src attribute
+// console.log(logo.src);
+// console.log(logo.className);
 
-//get custom attributes
-console.log(logo.getAttribute('designer'));
+// //get custom attributes
+// console.log(logo.getAttribute('designer'));
 
-//set attributes
-logo.alt = 'Minimalistic logo';
-logo.setAttribute('company', 'Bankist');
-//get relativ path of src attribute
-console.log(logo.getAttribute('src'));
+// //set attributes
+// logo.alt = 'Minimalistic logo';
+// logo.setAttribute('company', 'Bankist');
+// //get relativ path of src attribute
+// console.log(logo.getAttribute('src'));
 
-//data attributes
-console.log(logo.dataset.virsionNumber);
+// //data attributes
+// console.log(logo.dataset.virsionNumber);
 
-//classes
-logo.classList.add('c');
-logo.classList.remove('c');
-logo.classList.toggle('c');
-logo.classList.contains('c');
+// //classes
+// logo.classList.add('c');
+// logo.classList.remove('c');
+// logo.classList.toggle('c');
+// logo.classList.contains('c');
+
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', function (e) {
+  const s1coords = section1.getBoundingClientRect();
+  console.log(this.getBoundingClientRect());
+
+  //scrolling
+  window.scrollTo(s1coords.left, s1coords.top + window.pageYOffset);
+
+  // smooth scrolling
+  // window.scrollTo({
+  //   left: s1coords.left,
+  //   top: s1coords.top + window.pageYOffset,
+  //   behavior: 'smooth',
+  // });
+
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
