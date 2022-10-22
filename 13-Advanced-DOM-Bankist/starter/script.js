@@ -73,6 +73,33 @@ navigation.addEventListener('click', function (e) {
   }
 });
 
+//Tabs
+const tabContainer = document.querySelector('.operations__tab-container');
+tabContainer.addEventListener('click', function (e) {
+  if (e.target.classList.contains('operations__tab')) {
+    const allTabs = document.querySelectorAll('.operations__tab');
+    allTabs.forEach(tab => {
+      tab.classList.remove('operations__tab--active');
+    });
+    e.target.classList.add('operations__tab--active');
+
+    //change content
+    const dataTab = e.target.dataset.tab;
+    const operationContentActive = document.querySelector(
+      `.operations__content--${dataTab}`
+    );
+    const operationContentAll = [
+      ...document.querySelectorAll('.operations__content'),
+    ];
+
+    operationContentAll.forEach(operation =>
+      operation.classList.remove('operations__content--active')
+    );
+
+    operationContentActive.classList.add('operations__content--active');
+  }
+});
+
 ///////////////////////////////////////
 /*
 The HTML DOM (Document Object Model)
@@ -210,25 +237,25 @@ DOM je veoma kompleksan API koji sadrzi mnogo metoda i properties-a za interakci
 //   console.log(e.currentTarget)
 // })
 
-//DOM traversing
-const h1 = document.querySelector('h1');
-
-//going downwards : child elements
-console.log([...h1.querySelectorAll('.highlight')]);
-console.log(h1.children); // return html collection
-h1.firstElementChild.style.color = 'white';
-h1.lastElementChild.style.color = 'orangered';
-
-//going upwards : parents
-console.log(h1.parentElement);
-h1.closest('.header').style.background = 'var(--gradient-secondary)';
-
-//going sideways : siblings
-console.log(h1.previousElementSibling);
-console.log(h1.nextElementSibling);
-
-console.log(h1.previousSibling);
-console.log(h1.nextSibling);
-[...h1.parentElement.children].forEach(el => {
-  if (el !== h1) el.style.transform = 'scale(0.5)';
-});
+// //DOM traversing
+// const h1 = document.querySelector('h1');
+//
+// //going downwards : child elements
+// console.log([...h1.querySelectorAll('.highlight')]);
+// console.log(h1.children); // return html collection
+// h1.firstElementChild.style.color = 'white';
+// h1.lastElementChild.style.color = 'orangered';
+//
+// //going upwards : parents
+// console.log(h1.parentElement);
+// h1.closest('.header').style.background = 'var(--gradient-secondary)';
+//
+// //going sideways : siblings
+// console.log(h1.previousElementSibling);
+// console.log(h1.nextElementSibling);
+//
+// console.log(h1.previousSibling);
+// console.log(h1.nextSibling);
+// [...h1.parentElement.children].forEach(el => {
+//   if (el !== h1) el.style.transform = 'scale(0.5)';
+// });
