@@ -2,7 +2,8 @@
 
 ///////////////////////////////////////
 // Modal window
-
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
@@ -29,6 +30,48 @@ document.addEventListener('keydown', function (e) {
     closeModal();
   }
 });
+
+//Button scrolling
+btnScrollTo.addEventListener('click', function (e) {
+  const s1coords = section1.getBoundingClientRect();
+
+  //scrolling
+  window.scrollTo(s1coords.left, s1coords.top + window.pageYOffset);
+
+  // smooth scrolling
+  window.scrollTo({
+    left: s1coords.left,
+    top: s1coords.top + window.pageYOffset,
+    behavior: 'smooth',
+  });
+});
+
+//page navigation
+// const navLinks = document.querySelectorAll('.nav__link');
+//
+// navLinks.forEach(link => {
+//   link.addEventListener('click', function (e) {
+//     e.preventDefault();
+//     const id = this.getAttribute('href');
+//     const section = document.querySelector(id);
+//     section.scrollIntoView({behavior:'smooth'});
+//   })
+// })
+
+//Event delegation
+// 1.Add event listeners to common element
+// 2.Determine what element originated event
+
+const navigation = document.querySelector('.nav__links');
+
+navigation.addEventListener('click', function (e){
+  e.preventDefault();
+  if(e.target.classList.contains('nav__link')){
+    const id = e.target.getAttribute('href');
+    const section = document.querySelector(id);
+    section.scrollIntoView({behavior:'smooth'});
+  }
+})
 
 ///////////////////////////////////////
 /*
@@ -135,29 +178,11 @@ DOM je veoma kompleksan API koji sadrzi mnogo metoda i properties-a za interakci
 // logo.classList.toggle('c');
 // logo.classList.contains('c');
 
-const btnScrollTo = document.querySelector('.btn--scroll-to');
-const section1 = document.querySelector('#section--1');
 
-btnScrollTo.addEventListener('click', function (e) {
-  const s1coords = section1.getBoundingClientRect();
-  console.log(this.getBoundingClientRect());
-
-  //scrolling
-  window.scrollTo(s1coords.left, s1coords.top + window.pageYOffset);
-
-  // smooth scrolling
-  // window.scrollTo({
-  //   left: s1coords.left,
-  //   top: s1coords.top + window.pageYOffset,
-  //   behavior: 'smooth',
-  // });
-
-  section1.scrollIntoView({ behavior: 'smooth' });
-});
 
 //addEventListeners
 
-const h1 = document.querySelector('h1');
+// const h1 = document.querySelector('h1');
 
 
 // h1.addEventListener('mouseenter', function (e) {
@@ -165,29 +190,30 @@ const h1 = document.querySelector('h1');
 // });
 
 // Event bubbling
-const randomInt = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1) + min)
-}
+// const randomInt = (min, max) => {
+//   return Math.floor(Math.random() * (max - min + 1) + min)
+// }
+//
+// const randomColor = () => `rgb(${randomInt(0,255)},${randomInt(0,255)},${randomInt(0,255)})`;
+//
+// document.querySelector('.nav__link').addEventListener('click', function (e){
+//   e.preventDefault();
+//   this.style.backgroundColor = randomColor();
+//   console.log(e.currentTarget)
+// })
+// document.querySelector('.nav__links').addEventListener('click', function (e){
+//   e.preventDefault();
+//   this.style.backgroundColor = randomColor();
+//   console.log(e.currentTarget)
+// })
+// document.querySelector('.nav').addEventListener('click', function (e){
+//   e.preventDefault();
+//   e.stopPropagation();
+//   this.style.backgroundColor = randomColor();
+//   console.log(e.currentTarget)
+// })
 
-const randomColor = () => `rgb(${randomInt(0,255)},${randomInt(0,255)},${randomInt(0,255)})`;
-
-document.querySelector('.nav__link').addEventListener('click', function (e){
-  e.preventDefault();
-  this.style.backgroundColor = randomColor();
-  console.log(e.currentTarget)
-})
-document.querySelector('.nav__links').addEventListener('click', function (e){
-  e.preventDefault();
-  this.style.backgroundColor = randomColor();
-  console.log(e.currentTarget)
-})
-document.querySelector('.nav').addEventListener('click', function (e){
-  e.preventDefault();
-  e.stopPropagation();
-  this.style.backgroundColor = randomColor();
-  console.log(e.currentTarget)
-})
-
+//EVENT DELEGATION:IMPLEMENTING PAGE NAVIGATION
 
 
 
