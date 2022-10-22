@@ -159,12 +159,36 @@ btnScrollTo.addEventListener('click', function (e) {
 
 const h1 = document.querySelector('h1');
 
-h1.addEventListener('mouseenter', function (e) {
-  alert('addEventListener: Great');
-});
 
-h1.addEventListener('click', function () {
+// h1.addEventListener('mouseenter', function (e) {
+//   alert('addEventListener: Great');
+// });
 
+// Event bubbling
+const randomInt = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
+const randomColor = () => `rgb(${randomInt(0,255)},${randomInt(0,255)},${randomInt(0,255)})`;
+
+document.querySelector('.nav__link').addEventListener('click', function (e){
+  e.preventDefault();
+  this.style.backgroundColor = randomColor();
+  console.log(e.currentTarget)
 })
+document.querySelector('.nav__links').addEventListener('click', function (e){
+  e.preventDefault();
+  this.style.backgroundColor = randomColor();
+  console.log(e.currentTarget)
+})
+document.querySelector('.nav').addEventListener('click', function (e){
+  e.preventDefault();
+  e.stopPropagation();
+  this.style.backgroundColor = randomColor();
+  console.log(e.currentTarget)
+})
+
+
+
 
 
