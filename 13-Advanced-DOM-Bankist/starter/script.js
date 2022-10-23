@@ -159,6 +159,30 @@ const sectionObserver = new IntersectionObserver(revealSection, {
 allSections.forEach(section => {
   sectionObserver.observe(section);
 });
+
+//Lazy loading img with the intersection observer API
+const allImg = document.querySelectorAll('.features__img');
+
+const revealImg = function (entries, observer) {
+  const [entry] = entries;
+  const fullSizeImg = entry.target.dataset.src;
+  if (!entry.isIntersecting) return;
+  entry.target.setAttribute('src', fullSizeImg);
+  entry.target.addEventListener('load', function () {
+    entry.target.classList.remove('lazy-img');
+  });
+  observer.unobserve(entry.target);
+};
+
+const imgObserver = new IntersectionObserver(revealImg, {
+  root: null,
+  threshold: 0.6,
+});
+
+allImg.forEach(img => {
+  imgObserver.observe(img);
+});
+
 ///////////////////////////////////////
 /*
 The HTML DOM (Document Object Model)
