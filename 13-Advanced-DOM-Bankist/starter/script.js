@@ -8,6 +8,7 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const nav = document.querySelector('.nav');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -75,30 +76,53 @@ navigation.addEventListener('click', function (e) {
 
 //Tabs
 const tabContainer = document.querySelector('.operations__tab-container');
+const allTabs = document.querySelectorAll('.operations__tab');
 tabContainer.addEventListener('click', function (e) {
-  if (e.target.classList.contains('operations__tab')) {
-    const allTabs = document.querySelectorAll('.operations__tab');
-    allTabs.forEach(tab => {
-      tab.classList.remove('operations__tab--active');
-    });
-    e.target.classList.add('operations__tab--active');
+  const clicked = e.target.closest('.operations__tab');
 
-    //change content
-    const dataTab = e.target.dataset.tab;
-    const operationContentActive = document.querySelector(
-      `.operations__content--${dataTab}`
-    );
-    const operationContentAll = [
-      ...document.querySelectorAll('.operations__content'),
-    ];
+  if (!clicked) return;
 
-    operationContentAll.forEach(operation =>
-      operation.classList.remove('operations__content--active')
-    );
+  allTabs.forEach(tab => {
+    tab.classList.remove('operations__tab--active');
+  });
+  clicked.classList.add('operations__tab--active');
 
-    operationContentActive.classList.add('operations__content--active');
-  }
+  //change content
+  const dataTab = clicked.dataset.tab;
+  const operationContentActive = document.querySelector(
+    `.operations__content--${dataTab}`
+  );
+  const operationContentAll = [
+    ...document.querySelectorAll('.operations__content'),
+  ];
+
+  operationContentAll.forEach(operation =>
+    operation.classList.remove('operations__content--active')
+  );
+
+  operationContentActive.classList.add('operations__content--active');
 });
+
+//Menu fade animation
+const handleHoverLinks = function (e) {
+  if (e.target.classList.contains('nav__link')) {
+    const link = e.target;
+    const siblings = link.closest('.nav').querySelectorAll('.nav__link');
+    const logo = link.closest('.nav').querySelector('img');
+
+    siblings.forEach(el => {
+      if (el !== link) {
+        el.style.opacity = this;
+      }
+    });
+
+    logo.style.opacity = this;
+  }
+};
+
+nav.addEventListener('mouseover', handleHoverLinks.bind(0.5));
+
+nav.addEventListener('mouseout', handleHoverLinks.bind(1));
 
 ///////////////////////////////////////
 /*
