@@ -70,4 +70,25 @@ console.log(boris, mladen);
 
 console.log(boris instanceof Person);//return true
 
+//Prototype
+Person.prototype.calcAge = function(){
+  console.log(2022 - this.birthYear);
+}
+
+bojan.calcAge();
+boris.calcAge();
+mladen.calcAge();
+
+console.log(bojan.__proto__);
+console.log(bojan.__proto__ === Person.prototype); //return true
+console.log(Person.prototype.isPrototypeOf(bojan));//return true
+console.log(Person.prototype.isPrototypeOf(Person));//return false - confused naming convention
+
+//setting properties on prototype
+
+Person.prototype.species = "Homo Sapiens";
+
+//inherit properties from prototype
+console.log(bojan.species, boris.species);
+
 
