@@ -126,19 +126,34 @@ const Car = function(make, speed){
 
 Car.prototype.accelerate = function(){
   this.speed += 10;
-  console.log(this.speed);
+  console.log(`${this.make} is going at ${this.speed} km/h`);
 }
 
 Car.prototype.brake = function(){
   this.speed -= 5;
-  console.log(this.speed);
+  console.log(`${this.make} is going at ${this.speed} km/h`);
 }
 
 const bmw = new Car('BMW', 120);
 const mercedes = new Car('Mercedes', 95);
 
-bmw.accelerate();
-mercedes.accelerate();
 
-bmw.brake();
-mercedes.brake();
+//ES6 CLASSES
+class PersonCl {
+  constructor(firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  }
+
+  calcAge(){
+    console.log(`${this.firstName} is ${2022 - this.birthYear} years old`);
+  }
+}
+
+const jessica = new PersonCl('Jessica', 1988);
+
+console.log(jessica);
+jessica.calcAge();
+
+
+
