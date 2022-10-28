@@ -140,20 +140,53 @@ const mercedes = new Car('Mercedes', 95);
 
 //ES6 CLASSES
 class PersonCl {
-  constructor(firstName, birthYear) {
-    this.firstName = firstName;
+  constructor(fullName, birthYear) {
+    this.fullName = fullName;
     this.birthYear = birthYear;
   }
 
   calcAge(){
-    console.log(`${this.firstName} is ${2022 - this.birthYear} years old`);
+    console.log(`${this.fullName} is ${2022 - this.birthYear} years old`);
+  }
+
+  get age(){
+    return 2022 - this.birthYear;
+  }
+
+  set fullName (name){
+    name.includes(' ') ? this._fullName = name : alert('Full name is wrong, try again');
+  }
+
+  get fullName (){
+    return this._fullName;
   }
 }
 
-const jessica = new PersonCl('Jessica', 1988);
+const jessica = new PersonCl('Jessica Davis', 1988);
 
 console.log(jessica);
 jessica.calcAge();
+console.log(jessica.age);
 
+const walter = new PersonCl('Walter White', 1965);
+
+//SETTERS AND GETTERS
+const account = {
+  owner:'Bojan',
+  movements:[200,300,400,500],
+
+  get latest (){
+    return this.movements.slice(-1).pop();
+  },
+
+  set latest (mov){
+    this.movements.push(mov);
+  }
+}
+
+console.log(account.latest);
+account.latest = 50;
+
+console.log(account.movements);
 
 
