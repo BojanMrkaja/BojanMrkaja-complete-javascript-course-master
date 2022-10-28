@@ -56,6 +56,14 @@ const bojan = new Person('Bojan', 1988);
 
 console.log(bojan);
 
+//Add static method to constructor function
+//not inherited
+Person.hey = function(){
+  console.log('Hey there');
+}
+
+Person.hey();
+
 
 //1.New {} is created
 //2.function is called, this = {}
@@ -159,6 +167,12 @@ class PersonCl {
 
   get fullName (){
     return this._fullName;
+  }
+
+  //Add static method to Class
+  //not inherited
+  static hey(){
+    console.log('Hey there');
   }
 }
 
