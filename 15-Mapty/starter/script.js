@@ -53,11 +53,6 @@ class Cycling extends Workout {
   }
 }
 
-// const run1 = new Running([39, -12], 5.2, 24, 178);
-// const sycling = new Cycling([39, -12], 27, 95, 523);
-// console.log(run1);
-// console.log(sycling);
-
 const form = document.querySelector('.form');
 const containerWorkouts = document.querySelector('.workouts');
 const inputType = document.querySelector('.form__input--type');
@@ -65,6 +60,15 @@ const inputDistance = document.querySelector('.form__input--distance');
 const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
+const message = document.querySelector('.message');
+const confirm = document.querySelector('.confirm');
+const yes = document.querySelector('.yes');
+const no = document.querySelector('.no');
+const spinner = document.querySelector('.spin');
+const trash = document.querySelector('.fa-trash');
+const deleteAllWorkouts = document.querySelector('.delete-all-workouts');
+const faContainer = document.querySelector('.fa');
+const crud = document.querySelector('.crud');
 
 class App {
   #map;
@@ -73,9 +77,17 @@ class App {
 
   constructor() {
     this._getPosition();
+    //get data from localStorage
+    this._getLocalStorage();
+    this._toggleElevationField();
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField);
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+    if (!this.#map) {
+      message.textContent = 'Wait for workouts to load...';
+      message.classList.remove('hidden');
+      message.style.textTransform = 'upperCase';
+    }
   }
 
   _getPosition() {
@@ -99,8 +111,16 @@ class App {
       attribution:
         '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(this.#map);
-
+    if (this.#map) {
+      message.classList.add('hidden');
+    }
     this.#map.on('click', this._showForm.bind(this));
+    this.#workouts.forEach(workout => {
+      this._renderWorkoutMarker(workout);
+      this._renderWorkout(workout);
+    });
+    spinner.classList.add('hidden');
+    this._showWorkoutMessage();
   }
 
   _showForm(mapE) {
@@ -122,11 +142,49 @@ class App {
   }
 
   _toggleElevationField() {
-    inputElevation.closest('.form__row').classList.toggle('form__row--hidden');
-    inputCadence.closest('.form__row').classList.toggle('form__row--hidden');
+    if (inputType.value === 'running') {
+      inputCadence.closest('.form__row').classList.remove('form__row--hidden');
+      inputElevation.closest('.form__row').classList.add('form__row--hidden');
+    }
+    if (inputType.value === 'cycling') {
+      inputElevation
+        .closest('.form__row')
+        .classList.remove('form__row--hidden');
+      inputCadence.closest('.form__row').classList.add('form__row--hidden');
+    }
   }
 
   _newWorkout(e) {
+    const workout = this._addWorkout(
+      e,
+      this.#mapEvent.latlng.lat,
+      this.#mapEvent.latlng.lng
+    );
+
+    this.#workouts.push(workout);
+
+    //add new object in workout array
+
+    //render workout on map as marker
+    this._renderWorkoutMarker(workout);
+    //render workout on list
+    this._renderWorkout(workout);
+
+    //hide form + clear inputs
+    this._hideForm();
+
+    //set local storage
+    this._setLocalStorage();
+
+    location.reload();
+  }
+
+  _errorMessage(msg) {
+    message.innerHTML = msg;
+    message.classList.remove('hidden');
+  }
+
+  _addWorkout(e, la, ln) {
     // prettier-ignore
     const validInputs = (...inputs) => inputs.every(input => Number.isFinite(input));
     const allPositive = (...inputs) => inputs.every(input => input > 0);
@@ -135,7 +193,8 @@ class App {
     const type = inputType.value;
     const distance = +inputDistance.value;
     const duration = +inputDuration.value;
-    const { lat, lng } = this.#mapEvent.latlng;
+    const lat = la;
+    const lng = ln;
     let workout;
 
     //if workout is running, create running object
@@ -159,19 +218,7 @@ class App {
         return alert('Inputs have to be positive number');
       workout = new Cycling([lat, lng], distance, duration, elevation);
     }
-
-    this.#workouts.push(workout);
-    console.log(workout);
-
-    //add new object in workout array
-
-    //render workout on map as marker
-    this._renderWorkoutMarker(workout);
-    //render workout on list
-    this._renderWorkout(workout);
-
-    //hide form + clear inputs
-    this._hideForm();
+    return workout;
   }
 
   _renderWorkoutMarker(workout) {
@@ -196,6 +243,10 @@ class App {
   _renderWorkout(workout) {
     let html = `
     <li class='workout workout--${workout.type}' data-id='${workout.id}'>
+    <div class='crud'>
+      <a href='#' data-id='${workout.id}' class='edit'>edit</a>
+      <a href='#' data-id='${workout.id}' class='delete'>delete</a>
+    </div>
       <h2 class='workout__title'>${workout.description}</h2>
       <div class='workout__details'>
         <span class='workout__icon'>${
@@ -240,6 +291,10 @@ class App {
       </div>
       `;
     form.insertAdjacentHTML('afterend', html);
+    const deleteLink = document.querySelector('.delete');
+    const editLink = document.querySelector('.edit');
+    deleteLink.addEventListener('click', this.deleteWorkout.bind(this));
+    editLink.addEventListener('click', this.editWorkout.bind(this));
   }
 
   _moveToPopup(e) {
@@ -256,6 +311,125 @@ class App {
       },
     });
   }
+
+  _showWorkoutMessage() {
+    if (this.#workouts.length === 0) {
+      message.textContent =
+        'No workouts! Click on map and fill the form to add new workout.';
+      message.classList.remove('hidden');
+      containerWorkouts.style.overflowY = 'hidden';
+    }
+    if (this.#workouts.length >= 4) {
+      containerWorkouts.style.overflowY = 'scroll';
+    }
+    if (this.#workouts > 0) message.classList.add('hidden');
+    if (this.#workouts.length > 1) {
+      faContainer.classList.remove('hidden');
+    }
+  }
+
+  _setLocalStorage() {
+    localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+  }
+
+  _getLocalStorage() {
+    const data = JSON.parse(localStorage.getItem('workouts'));
+
+    if (!data) return;
+    this.#workouts = data;
+  }
+
+  editWorkout(e) {
+    yes.setAttribute('data-workoutId', e.target.dataset.id);
+    const getID = e.target.getAttribute('data-id');
+    const findWorkout = this.#workouts.find(workout => workout.id === getID);
+    this._showForm();
+    inputType.value = findWorkout.type;
+    inputDistance.value = findWorkout.distance;
+    inputDuration.value = findWorkout.duration;
+    findWorkout.type === 'running'
+      ? (inputCadence.value = findWorkout.cadence)
+      : (inputElevation.value = findWorkout.elevationGain);
+    this._toggleElevationField();
+    message.innerHTML =
+      'Are you sure you wont to edit this workout??Enter new values into form and confirm';
+    message.classList.remove('hidden');
+    confirm.classList.remove('hidden');
+    confirm.addEventListener('click', this.confirmEditWorkout.bind(this));
+  }
+
+  confirmEditWorkout(e) {
+    if (e.target.dataset.confirm === 'yes') {
+      const getID = yes.getAttribute('data-workoutId');
+      const findWorkout = this.#workouts.find(workout => workout.id === getID);
+      const findIndexWorkout = this.#workouts.findIndex(
+        workout => workout.id === getID
+      );
+      const editedWorkout = this._addWorkout(
+        e,
+        findWorkout.coords[0],
+        findWorkout.coords[1]
+      );
+      this.#workouts.splice(findIndexWorkout, 1, editedWorkout);
+      this._setLocalStorage();
+      this._getLocalStorage();
+      location.reload();
+    }
+    if (e.target.dataset.confirm === 'no') {
+      message.classList.add('hidden');
+      confirm.classList.add('hidden');
+      this._hideForm();
+    }
+  }
+
+  deleteWorkout(e) {
+    yes.setAttribute('data-workoutId', e.target.dataset.id);
+    message.innerHTML = 'Are you sure you wont to delete this workout';
+    message.classList.remove('hidden');
+    confirm.classList.remove('hidden');
+    confirm.addEventListener('click', this.confirmDeleteWorkout.bind(this));
+  }
+
+  confirmDeleteWorkout(e) {
+    const getID = yes.getAttribute('data-workoutId');
+    const findIndex = this.#workouts.findIndex(workout => workout.id === getID);
+    if (e.target.dataset.confirm === 'yes') {
+      this.#workouts.splice(findIndex, 1);
+      this._setLocalStorage();
+      this._getLocalStorage();
+      location.reload();
+    }
+    if (e.target.dataset.confirm === 'no') {
+      message.classList.add('hidden');
+      confirm.classList.add('hidden');
+    }
+  }
+
+  deleteAllWorkouts() {
+    message.innerHTML = 'Are you sure, you want to delete all workouts??';
+    message.classList.remove('hidden');
+    confirm.classList.remove('hidden');
+    confirm.addEventListener('click', function (ev) {
+      if (ev.target.dataset.confirm === 'yes') {
+        localStorage.removeItem('workouts');
+        location.reload();
+      }
+
+      if (ev.target.dataset.confirm === 'no') {
+        message.classList.add('hidden');
+        confirm.classList.add('hidden');
+      }
+    });
+  }
 }
 
 const app = new App();
+
+trash.addEventListener('click', app.deleteAllWorkouts);
+
+trash.addEventListener('mouseover', function () {
+  deleteAllWorkouts.style.opacity = '1';
+});
+trash.addEventListener('mouseout', function () {
+  deleteAllWorkouts.style.opacity = '0';
+});

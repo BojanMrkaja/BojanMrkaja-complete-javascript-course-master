@@ -6,14 +6,17 @@
   <meta http-equiv='X-UA-Compatible' content='ie=edge' />
   <link rel='shortcut icon' type='image/png' href='/icon.png' />
 
+
   <link
     href='https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap'
     rel='stylesheet'
   />
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'>
 
   <link rel='stylesheet' href='style.css' />
   <link rel='stylesheet' href='leaflet.css' />
   <script src='leaflet.js'></script>
+
 
   <script defer src='script.js'></script>
   <title>mapty // Map your workouts</title>
@@ -21,7 +24,13 @@
 <body>
 <div class='sidebar'>
   <img src='logo.png' alt='Logo' class='logo' />
-
+  <div class='message hidden'>
+    Are you sure you want to delete workout??!!
+  </div>
+  <div class='confirm hidden'>
+    <a class='yes' data-confirm='yes'>yes</a>
+    <a class='no' data-confirm='no'>no</a>
+  </div>
   <ul class='workouts'>
     <form class='form hidden'>
       <div class='form__row'>
@@ -42,7 +51,7 @@
           placeholder='min'
         />
       </div>
-      <div class='form__row'>
+      <div class='form__row form__row--hidden'>
         <label class='form__label'>Cadence</label>
         <input
           class='form__input form__input--cadence'
@@ -56,10 +65,14 @@
           placeholder='meters'
         />
       </div>
-      <button class='form__btn'>OK</button>
+      <button class='hidden'>OK</button>
     </form>
 
     <!-- <li class="workout workout--running" data-id="1234567890">
+     <div class='crud'>
+      <a href='#' data-id='${workout.id}' class='edit'>edit</a>
+      <a href='#' data-id='${workout.id}' class='delete'>delete</a>
+    </div>
       <h2 class="workout__title">Running on April 14</h2>
       <div class="workout__details">
         <span class="workout__icon">🏃‍♂️</span>
@@ -107,19 +120,24 @@
       </div>
     </li> -->
   </ul>
-
-  <p class='copyright'>
-    &copy; Copyright by
-    <a
-      class='twitter-link'
-      target='_blank'
-      href='https://twitter.com/jonasschmedtman'
-    >Jonas Schmedtmann</a
-    >. Use for learning or your portfolio. Don't use to teach. Don't claim
-    as your own.
-  </p>
+  <div class='fa hidden' style='text-align: center;margin-top: 30px'>
+    <div class='delete-all-workouts'>
+      Delete all workouts
+    </div>
+    <i class='fa-solid fa-trash fa-3x' style='margin-right: 20px'></i>
+    <label>Sort workouts by:</label>
+    <select>
+      <option value='type'>type</option>
+      <option value='distance'>Distance</option>
+      <option value='duration'>Duration</option>
+    </select>
+  </div>
 </div>
 
-<div id='map'></div>
+<div id='map'>
+  <div class='fa spin'>
+    <i class='fa-solid fa-spinner fa-spin-pulse' style='font-size: 80px;color: #00c46a'></i>
+  </div>
+</div>
 </body>
 </html>
