@@ -61,6 +61,7 @@ const inputDuration = document.querySelector('.form__input--duration');
 const inputCadence = document.querySelector('.form__input--cadence');
 const inputElevation = document.querySelector('.form__input--elevation');
 const message = document.querySelector('.message');
+const errorMessage = document.querySelector('.error-message');
 const confirm = document.querySelector('.confirm');
 const yes = document.querySelector('.yes');
 const no = document.querySelector('.no');
@@ -68,7 +69,8 @@ const spinner = document.querySelector('.spin');
 const trash = document.querySelector('.fa-trash');
 const deleteAllWorkouts = document.querySelector('.delete-all-workouts');
 const faContainer = document.querySelector('.fa');
-const crud = document.querySelector('.crud');
+const submitBtn = document.querySelector('.submit');
+const sortWorkouts = document.querySelector('.sort');
 
 class App {
   #map;
@@ -79,9 +81,12 @@ class App {
     this._getPosition();
     //get data from localStorage
     this._getLocalStorage();
+    if (sortWorkouts.value === 'type') this._sortByType();
     this._toggleElevationField();
+    submitBtn.disabled = false;
     form.addEventListener('submit', this._newWorkout.bind(this));
     inputType.addEventListener('change', this._toggleElevationField);
+    sortWorkouts.addEventListener('change', this._sortWorkouts.bind(this));
     containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
     if (!this.#map) {
       message.textContent = 'Wait for workouts to load...';
@@ -129,11 +134,15 @@ class App {
     inputDistance.focus();
   }
 
-  _hideForm() {
+  _clearInputs() {
     inputDistance.value = '';
     inputDuration.value = '';
     inputCadence.value = '';
     inputElevation.value = '';
+  }
+
+  _hideForm() {
+    this._clearInputs();
     form.style.display = 'none';
     form.classList.add('hidden');
     setTimeout(function () {
@@ -161,6 +170,7 @@ class App {
       this.#mapEvent.latlng.lng
     );
 
+    if (!workout) return;
     this.#workouts.push(workout);
 
     //add new object in workout array
@@ -180,14 +190,21 @@ class App {
   }
 
   _errorMessage(msg) {
-    message.innerHTML = msg;
-    message.classList.remove('hidden');
+    errorMessage.textContent = msg;
+    errorMessage.classList.remove('hidden');
+    setTimeout(function () {
+      errorMessage.style.display = 'block';
+    }, 1000);
+    errorMessage.style.marginBottom = '10px';
+    errorMessage.style.textTransform = 'upperCase';
+    setTimeout(() => errorMessage.classList.add('hidden'), 4000);
   }
 
   _addWorkout(e, la, ln) {
     // prettier-ignore
     const validInputs = (...inputs) => inputs.every(input => Number.isFinite(input));
     const allPositive = (...inputs) => inputs.every(input => input > 0);
+    const allEmpty = (...inputs) => inputs.every(input => input === 0);
     e.preventDefault();
     //get data from form
     const type = inputType.value;
@@ -200,25 +217,34 @@ class App {
     //if workout is running, create running object
     if (type === 'running') {
       const cadence = +inputCadence.value;
-      if (
+      if (allEmpty(distance, duration, cadence)) {
+        this._errorMessage('All inputs are required');
+      } else if (
         !validInputs(distance, duration, cadence) ||
         !allPositive(distance, duration, cadence)
-      )
-        return alert('Inputs have to be positive number');
-      workout = new Running([lat, lng], distance, duration, cadence);
+      ) {
+        this._errorMessage('All inputs must be positive numbers');
+      } else {
+        workout = new Running([lat, lng], distance, duration, cadence);
+        return workout;
+      }
     }
 
     //if workout is cycling, create cycling object
     if (type === 'cycling') {
       const elevation = +inputElevation.value;
-      if (
+      if (allEmpty(distance, duration, elevation)) {
+        this._errorMessage('All inputs are required');
+      } else if (
         !validInputs(distance, duration, elevation) ||
         !allPositive(distance, duration)
-      )
-        return alert('Inputs have to be positive number');
-      workout = new Cycling([lat, lng], distance, duration, elevation);
+      ) {
+        this._errorMessage('All inputs must be positive numbers');
+      } else {
+        workout = new Cycling([lat, lng], distance, duration, elevation);
+        return workout;
+      }
     }
-    return workout;
   }
 
   _renderWorkoutMarker(workout) {
@@ -351,10 +377,10 @@ class App {
       ? (inputCadence.value = findWorkout.cadence)
       : (inputElevation.value = findWorkout.elevationGain);
     this._toggleElevationField();
-    message.innerHTML =
-      'Are you sure you wont to edit this workout??Enter new values into form and confirm';
+    message.innerHTML = 'Are you sure you wont to edit this workout?';
     message.classList.remove('hidden');
     confirm.classList.remove('hidden');
+    submitBtn.disabled = true;
     confirm.addEventListener('click', this.confirmEditWorkout.bind(this));
   }
 
@@ -370,9 +396,11 @@ class App {
         findWorkout.coords[0],
         findWorkout.coords[1]
       );
+      if (!editedWorkout) return;
       this.#workouts.splice(findIndexWorkout, 1, editedWorkout);
       this._setLocalStorage();
       this._getLocalStorage();
+      this._clearInputs();
       location.reload();
     }
     if (e.target.dataset.confirm === 'no') {
@@ -420,6 +448,38 @@ class App {
         confirm.classList.add('hidden');
       }
     });
+  }
+
+  _sortByType() {
+    this.#workouts.sort(function (a, b) {
+      if (a.type < b.type) return -1;
+      if (a.type > b.type) return 1;
+      if (a.type === b.type) {
+        if (a.order > b.order) return -1;
+        else return 1;
+      }
+    });
+  }
+
+  _sortWorkouts() {
+    if (sortWorkouts.value === 'type') {
+      this._sortByType();
+      this._setLocalStorage();
+      this._getLocalStorage();
+      location.reload();
+    }
+    if (sortWorkouts.value === 'distance') {
+      this.#workouts.sort((a, b) => a.distance - b.distance);
+      this._setLocalStorage();
+      this._getLocalStorage();
+      location.reload();
+    }
+    if (sortWorkouts.value === 'duration') {
+      this.#workouts.sort((a, b) => a.duration - b.duration);
+      this._setLocalStorage();
+      this._getLocalStorage();
+      location.reload();
+    }
   }
 }
 

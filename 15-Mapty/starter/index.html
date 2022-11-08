@@ -31,6 +31,9 @@
     <a class='yes' data-confirm='yes'>yes</a>
     <a class='no' data-confirm='no'>no</a>
   </div>
+  <div class='error-message hidden'>
+    Are you sure you want to delete workout??!!
+  </div>
   <ul class='workouts'>
     <form class='form hidden'>
       <div class='form__row'>
@@ -65,7 +68,7 @@
           placeholder='meters'
         />
       </div>
-      <button class='hidden'>OK</button>
+      <button class='hidden submit'>OK</button>
     </form>
 
     <!-- <li class="workout workout--running" data-id="1234567890">
@@ -126,7 +129,7 @@
     </div>
     <i class='fa-solid fa-trash fa-3x' style='margin-right: 20px'></i>
     <label>Sort workouts by:</label>
-    <select>
+    <select class='sort'>
       <option value='type'>type</option>
       <option value='distance'>Distance</option>
       <option value='duration'>Duration</option>
