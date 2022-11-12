@@ -25,37 +25,89 @@ const renderCountry = function (data, className = '') {
         </article>
   `;
   countriesContainer.insertAdjacentHTML('beforeend', html);
-  countriesContainer.style.opacity = '1';
 };
 
 ///////////////////////////////////////
-const getCountryAndNeighbour = function (country) {
-  //AJAX call 1
-  const request = new XMLHttpRequest();
-  request.open('GET', `https://restcountries.com/v3.1/name/${country}`);
-  request.send();
-  request.addEventListener('load', function () {
-    const [data] = JSON.parse(this.responseText);
-    console.log(data);
-    renderCountry(data);
-    //get neighbour
+// const getCountryAndNeighbour = function (country) {
+//   //AJAX call 1
+//   const request = new XMLHttpRequest();
+//   request.open('GET', `https://restcountries.com/v3.1/name/${country}`);
+//   request.send();
+//   request.addEventListener('load', function () {
+//     const [data] = JSON.parse(this.responseText);
+//     console.log(data);
+//     renderCountry(data);
+//     //get neighbour
+//
+//     const neighbours = data.borders;
+//
+//     if (neighbours.length === 0) return;
+//
+//     neighbours.forEach(neighbour => {
+//       //AJAX call 2
+//       const request2 = new XMLHttpRequest();
+//       request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
+//       request2.send();
+//
+//       request2.addEventListener('load', function () {
+//         const [data] = JSON.parse(this.responseText);
+//         renderCountry(data, 'neighbour');
+//       });
+//     });
+//   });
+// };
+//
+// getCountryAndNeighbour('serbia');
 
-    const neighbours = data.borders;
-
-    if (neighbours.length === 0) return;
-
-    neighbours.forEach(neighbour => {
-      //AJAX call 2
-      const request2 = new XMLHttpRequest();
-      request2.open('GET', `https://restcountries.com/v3.1/alpha/${neighbour}`);
-      request2.send();
-
-      request2.addEventListener('load', function () {
-        const [data] = JSON.parse(this.responseText);
-        renderCountry(data, 'neighbour');
-      });
-    });
-  });
+//FETCH API
+const renderError = function (msg) {
+  countriesContainer.insertAdjacentText('beforeend', msg);
+  countriesContainer.style.opacity = '1';
 };
 
-getCountryAndNeighbour('serbia');
+const getCountryData = function (country) {
+  fetch(`https://restcountries.com/v3.1/name/${country}`)
+    .then(response => {
+      console.log(response);
+
+      if (!response.ok)
+        throw new Error(`Country not found (${response.status})`);
+
+      return response.json();
+    })
+    .then(data => {
+      renderCountry(data[0]);
+      const neighbour = data[0].borders[0];
+      if (!neighbour) return;
+
+      return fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`);
+    })
+    .then(response => response.json())
+    .then(data => {
+      renderCountry(data[0], 'neighbour');
+    })
+    .catch(err => {
+      console.error(`${err} try again letter`);
+      renderError(`Something went wrong ${err.message}.Try again!!`);
+    })
+    .finally(() => {
+      countriesContainer.style.opacity = '1';
+    });
+};
+btn.addEventListener('click', function () {
+  getCountryData('serbia');
+});
+
+//BUILD SIMPLE PROMISE
+const lotteryPromise = new Promise(function (resolve, reject) {
+  console.log('Waiting for lottery...');
+  setTimeout(() => {
+    if (Math.random() > 0.5) {
+      resolve('You win');
+    } else {
+      reject(new Error('You lose'));
+    }
+  }, 3000);
+});
+
+lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
