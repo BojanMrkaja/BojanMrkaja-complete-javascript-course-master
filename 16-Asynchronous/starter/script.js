@@ -111,3 +111,32 @@ const lotteryPromise = new Promise(function (resolve, reject) {
 });
 
 lotteryPromise.then(res => console.log(res)).catch(err => console.error(err));
+
+const getPosition = function () {
+  return new Promise(function (resolve, reject) {
+    navigator.geolocation.getCurrentPosition(
+      position => resolve(position),
+      err => reject(err)
+    );
+  });
+};
+
+getPosition()
+  .then(res => console.log(res))
+  .catch(err => console.error(err));
+
+//ASYNC AWAIT
+const whereAmI = async function (country) {
+  countriesContainer.style.opacity = '1';
+  try {
+    const res = await fetch(`https://restcountries.com/v3.1/name/${country}`);
+    if (!res.ok) throw new Error(`Country not found(${res.status})`);
+    const [data] = await res.json();
+    renderCountry(data);
+  } catch (err) {
+    console.error(err);
+    renderError(`Something went wrong ${err.message}Try again!`);
+  }
+};
+
+whereAmI('sss');
