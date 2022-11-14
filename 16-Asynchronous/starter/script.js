@@ -94,9 +94,9 @@ const getCountryData = function (country) {
       countriesContainer.style.opacity = '1';
     });
 };
-btn.addEventListener('click', function () {
-  getCountryData('serbia');
-});
+// btn.addEventListener('click', function () {
+//   getCountryData('serbia');
+// });
 
 //BUILD SIMPLE PROMISE
 const lotteryPromise = new Promise(function (resolve, reject) {
@@ -125,7 +125,7 @@ getPosition()
   .then(res => console.log(res))
   .catch(err => console.error(err));
 
-//ASYNC AWAIT
+//
 const whereAmI = async function (country) {
   countriesContainer.style.opacity = '1';
   try {
@@ -133,10 +133,49 @@ const whereAmI = async function (country) {
     if (!res.ok) throw new Error(`Country not found(${res.status})`);
     const [data] = await res.json();
     renderCountry(data);
+    console.log(data);
+    return `You are in ${data.name.common}, ${data.capital[0]}`;
   } catch (err) {
     console.error(err);
     renderError(`Something went wrong ${err.message}Try again!`);
+    throw err;
   }
 };
 
-whereAmI('sss');
+// (async function () {
+//   try {
+//     const city = await whereAmI('serbia');
+//     console.log(city);
+//   } catch (err) {
+//     console.log(err.message);
+//   }
+// })();
+
+const getCountryAndNeighbours = async function (country) {
+  countriesContainer.style.opacity = '1';
+  try {
+    const response = await fetch(
+      `https://restcountries.com/v3.1/name/${country}`
+    );
+    const [data] = await response.json();
+    renderCountry(data);
+    const neighbours = data.borders;
+    neighbours.forEach(neighbour => {
+      fetch(`https://restcountries.com/v3.1/alpha/${neighbour}`)
+        .then(res => {
+          if (!res.ok) throw new Error(`Neighbour not found`);
+          return res.json();
+        })
+        .then(data => {
+          renderCountry(data[0], 'neighbour');
+        });
+    });
+  } catch (error) {
+    renderError(`Something went wrong ${error.message}Try again!`);
+    throw error;
+  }
+};
+
+btn.addEventListener('click', function () {
+  getCountryAndNeighbours('norway');
+});
