@@ -1,0 +1,21 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/js/controller.js",
+  "source": "index.html",
+  "scripts": {
+    "start": "parcel",
+    "bulid": "parcel build"
+  },
+  "author": "Bojan Mrkaja",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.8.0",
+    "parcel": "^2.8.0"
+  },
+  "dependencies": {
+    "core-js": "^3.26.1",
+    "regenerator-runtime": "^0.13.10"
+  }
+}
