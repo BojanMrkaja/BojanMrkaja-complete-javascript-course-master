@@ -575,8 +575,15 @@ const controlPagination = function(goToPage) {
     (0, _searchResultsJsDefault.default).render(_modelJs.getSearchResultsPage(goToPage));
     (0, _paginationViewDefault.default).render(_modelJs.state.search);
 };
+const controlServings = function(newServings) {
+    //update recipe servings(in state)
+    _modelJs.updateServings(newServings);
+    //update the recipe view
+    (0, _recipeViewJsDefault.default).update(_modelJs.state.recipe);
+};
 const init = function() {
     (0, _recipeViewJsDefault.default).addHandlerRender(controlRecipe);
+    (0, _recipeViewJsDefault.default).addHandlerUpdateServings(controlServings);
     (0, _searchViewJsDefault.default).addHandlerSearch(controlSearchResults);
     (0, _paginationViewDefault.default).addHandlerPagination(controlPagination);
 };
@@ -1796,6 +1803,7 @@ parcelHelpers.export(exports, "state", ()=>state);
 parcelHelpers.export(exports, "loadRecipe", ()=>loadRecipe);
 parcelHelpers.export(exports, "loadSearchResults", ()=>loadSearchResults);
 parcelHelpers.export(exports, "getSearchResultsPage", ()=>getSearchResultsPage);
+parcelHelpers.export(exports, "updateServings", ()=>updateServings);
 var _configJs = require("./config.js");
 var _helpersJs = require("./helpers.js");
 const state = {
@@ -1847,6 +1855,12 @@ const getSearchResultsPage = function(page = state.search.page) {
     const start = (page - 1) * state.search.resultsPerPage;
     const end = page * state.search.resultsPerPage;
     return state.search.results.slice(start, end);
+};
+const updateServings = function(newServings) {
+    state.recipe.ingredients.forEach((ing)=>{
+        ing.quantity = ing.quantity * newServings / state.recipe.servings;
+    });
+    state.recipe.servings = newServings;
 };
 
 },{"./config.js":"k5Hzs","./helpers.js":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {
@@ -1933,6 +1947,14 @@ class RecipeView extends (0, _viewJsDefault.default) {
             "load"
         ].forEach((ev)=>window.addEventListener(ev, handler));
     }
+    addHandlerUpdateServings(handler) {
+        this._parentElement.addEventListener("click", function(e) {
+            const btn = e.target.closest(".btn--update-servings");
+            if (!btn) return;
+            const update = +btn.dataset.update;
+            if (update > 0) handler(update);
+        });
+    }
     _generateMarkup() {
         return `
         <figure class="recipe__fig">
@@ -1958,12 +1980,12 @@ class RecipeView extends (0, _viewJsDefault.default) {
             <span class="recipe__info-text">servings</span>
 
             <div class="recipe__info-buttons">
-              <button class="btn--tiny btn--increase-servings">
+              <button class="btn--tiny btn--update-servings" data-update='${this._data.servings - 1}'>
                 <svg>
                   <use href="${0, _iconsSvgDefault.default}#icon-minus-circle"></use>
                 </svg>
               </button>
-              <button class="btn--tiny btn--increase-servings">
+              <button class="btn--tiny btn--update-servings" data-update='${this._data.servings + 1}'>
                 <svg>
                   <use href="${0, _iconsSvgDefault.default}#icon-plus-circle"></use>
                 </svg>
@@ -2042,6 +2064,27 @@ class View {
     }
     _clear() {
         this._parentElement.innerHTML = "";
+    }
+    update(data) {
+        if (!data || Array.isArray(data) && data.length === 0) return this.renderError();
+        this._data = data;
+        const newMarkup = this._generateMarkup();
+        const newDOM = document.createRange().createContextualFragment(newMarkup);
+        const newElements = [
+            ...newDOM.querySelectorAll("*")
+        ];
+        const currentElements = [
+            ...this._parentElement.querySelectorAll("*")
+        ];
+        newElements.forEach((newEl, index)=>{
+            const currentElement = currentElements[index];
+            if (!newEl.isEqualNode(currentElement) && newEl.firstChild?.nodeValue.trim() !== "") currentElement.textContent = newEl.textContent;
+            if (!newEl.isEqualNode(currentElement)) [
+                ...newEl.attributes
+            ].forEach((attribute)=>{
+                currentElement.setAttribute(attribute.name, attribute.value);
+            });
+        });
     }
     renderSpinner() {
         const markup = `
